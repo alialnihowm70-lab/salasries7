@@ -1,0 +1,138 @@
+@model AttendanceIndexViewModel
+
+@{
+    ViewData["Title"] = "سجل الحضور والغياب";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div>
+        <p class="eyebrow"><i class="fa-solid fa-calendar-check me-1"></i> @Model.BranchName - @ArabicLabels.MonthName(Model.Month) @Model.Year</p>
+        <h1><i class="fa-solid fa-user-clock text-primary me-2"></i> حضور الفرع</h1>
+    </div>
+    <div class="heading-actions">
+        <form method="get" class="period-filter bg-white p-2 rounded-pill shadow-sm border">
+            <input class="form-control border-0 bg-transparent fw-bold" type="number" name="year" value="@Model.Year" min="2000" max="2100" style="width: 80px;" />
+            <select class="form-select border-0 bg-transparent fw-bold" name="month" style="width: 120px;">
+                @for (var month = 1; month <= 12; month++)
+                {
+                    <option value="@month" selected="@(Model.Month == month)">@ArabicLabels.MonthName(month)</option>
+                }
+            </select>
+            <button class="btn btn-primary btn-sm rounded-pill px-3" type="submit">تحديث</button>
+        </form>
+        <a class="btn btn-primary shadow-premium" asp-action="Create">
+            <i class="fa-solid fa-plus-circle me-1"></i> تسجيل حضور
+        </a>
+    </div>
+</section>
+
+<section class="stats-grid animate__animated animate__fadeIn">
+    <article class="stat-card accent-green shadow-premium">
+        <span><i class="fa-solid fa-check-circle me-1"></i> حاضر</span>
+        <strong>@Model.PresentCount</strong>
+        <small>سجلات حضور مكتملة</small>
+    </article>
+    <article class="stat-card accent-rose shadow-premium">
+        <span><i class="fa-solid fa-circle-xmark me-1"></i> غياب</span>
+        <strong>@Model.AbsentCount</strong>
+        <small>إجمالي أيام الغياب</small>
+    </article>
+    <article class="stat-card accent-blue shadow-premium">
+        <span><i class="fa-solid fa-umbrella-beach me-1"></i> إجازات</span>
+        <strong>@Model.VacationCount</strong>
+        <small>إجازة أو مرضية</small>
+    </article>
+    <article class="stat-card accent-amber shadow-premium">
+        <span><i class="fa-solid fa-clock-rotate-left me-1"></i> تأخير / إضافي</span>
+        <strong>@Model.LateMinutes <small class="fs-6">د</small></strong>
+        <small>+ @Model.OvertimeHours.ToString("N1") ساعة إضافية</small>
+    </article>
+</section>
+
+<section class="panel animate__animated animate__fadeInUp">
+    @if (!Model.Records.Any())
+    {
+        <div class="empty-state py-5 text-center">
+            <i class="fa-solid fa-calendar-day fa-3x text-muted mb-3"></i>
+            <h3 class="fw-bold">لا توجد سجلات حضور</h3>
+            <p class="text-muted">ابدأ بتسجيل حضور الموظفين لهذا الشهر من خلال زر "تسجيل حضور".</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table app-table datatable">
+                <thead>
+                    <tr>
+                        <th>التاريخ</th>
+                        <th>الموظف</th>
+                        <th>الحالة</th>
+                        <th>الدخول</th>
+                        <th>الخروج</th>
+                        <th>تأخير</th>
+                        <th>إضافي</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var record in Model.Records)
+                {
+                    <tr>
+                        <td class="fw-bold">@record.WorkDate.ToString("yyyy/MM/dd")</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle-sm me-2">
+                                    <i class="fa-solid fa-user-tag text-muted small"></i>
+                                </div>
+                                <div>
+                                    <strong class="d-block">@record.Employee?.FullName</strong>
+                                    <small class="text-muted">#@record.Employee?.EmployeeNumber</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @{
+                                var statusClass = record.Status.ToString().ToLower() switch {
+                                    "present" => "success",
+                                    "absent" => "danger",
+                                    "vacation" => "info",
+                                    _ => "warning"
+                                };
+                            }
+                            <span class="badge-soft @statusClass">@ArabicLabels.For(record.Status)</span>
+                        </td>
+                        <td>
+                            @if (record.CheckIn.HasValue) {
+                                <span class="text-success fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i> @record.CheckIn?.ToString(@"hh\:mm")</span>
+                            } else { <span class="text-muted">-</span> }
+                        </td>
+                        <td>
+                            @if (record.CheckOut.HasValue) {
+                                <span class="text-danger fw-bold"><i class="fa-solid fa-right-from-bracket me-1"></i> @record.CheckOut?.ToString(@"hh\:mm")</span>
+                            } else { <span class="text-muted">-</span> }
+                        </td>
+                        <td class="@(record.LateMinutes > 0 ? "text-danger fw-bold" : "text-muted")">
+                            @record.LateMinutes د
+                        </td>
+                        <td class="@(record.OvertimeHours > 0 ? "text-success fw-bold" : "text-muted")">
+                            @record.OvertimeHours.ToString("N1")
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a class="btn btn-light btn-sm" asp-action="Edit" asp-route-id="@record.Id" title="تعديل">
+                                    <i class="fa-solid fa-pen-to-square text-success"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@record.Id" method="post" class="d-inline">
+                                    <button type="button" class="btn btn-light btn-sm btn-delete-confirm" data-entity="سجل حضور @record.Employee?.FullName" title="حذف">
+                                        <i class="fa-solid fa-trash-can text-danger"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

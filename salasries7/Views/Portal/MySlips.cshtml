@@ -1,0 +1,48 @@
+@model IEnumerable<salasries7.Models.PayrollLine>
+
+@{
+    ViewData["Title"] = "قسائم المرتبات الخاصة بي";
+}
+
+<div class="premium-container animate__animated animate__fadeIn">
+    <div class="page-header-block mb-4">
+        <h1 class="premium-title">سجل المرتبات</h1>
+        <p class="text-muted">مراجعة كافة قسائم المرتبات الشهرية الخاصة بك</p>
+    </div>
+
+    <div class="premium-card border-0 shadow-sm overflow-hidden">
+        <div class="table-responsive">
+            <table class="table premium-table mb-0">
+                <thead>
+                    <tr>
+                        <th>الشهر / السنة</th>
+                        <th>المرتب الأساسي</th>
+                        <th>البدلات</th>
+                        <th>الإضافي/البونص</th>
+                        <th>الخصومات</th>
+                        <th>صافي المرتب</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@line.PayrollRun.Month / @line.PayrollRun.Year</td>
+                            <td>@line.BasicSalary.ToString("N2")</td>
+                            <td>@line.TotalAllowances.ToString("N2")</td>
+                            <td class="text-success">+@((line.Bonuses + line.OvertimePay).ToString("N2"))</td>
+                            <td class="text-danger">-@((line.SocialSecurityDeduction + line.TaxDeduction + line.OtherDeductions).ToString("N2"))</td>
+                            <td class="fw-bold text-primary">@line.NetSalary.ToString("N2")</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                    <i class="fa-solid fa-file-pdf me-1"></i> تحميل
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

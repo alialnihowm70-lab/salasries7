@@ -1,0 +1,123 @@
+@model SalaryAdjustmentIndexViewModel
+
+@{
+    ViewData["Title"] = "إدارة حركات المرتب";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div>
+        <p class="eyebrow"><i class="fa-solid fa-money-bill-transfer me-1"></i> @Model.BranchName - @ArabicLabels.MonthName(Model.Month) @Model.Year</p>
+        <h1><i class="fa-solid fa-file-invoice-dollar text-primary me-2"></i> حركات المرتب</h1>
+    </div>
+    <div class="heading-actions">
+        <form method="get" class="period-filter bg-white p-2 rounded-pill shadow-sm border">
+            <input class="form-control border-0 bg-transparent fw-bold" type="number" name="year" value="@Model.Year" min="2000" max="2100" style="width: 80px;" />
+            <select class="form-select border-0 bg-transparent fw-bold" name="month" style="width: 120px;">
+                @for (var month = 1; month <= 12; month++)
+                {
+                    <option value="@month" selected="@(Model.Month == month)">@ArabicLabels.MonthName(month)</option>
+                }
+            </select>
+            <button class="btn btn-primary btn-sm rounded-pill px-3" type="submit">تحديث</button>
+        </form>
+        <a class="btn btn-primary shadow-premium" asp-action="Create">
+            <i class="fa-solid fa-plus-circle me-1"></i> إضافة حركة جديدة
+        </a>
+    </div>
+</section>
+
+<section class="stats-grid animate__animated animate__fadeIn">
+    <article class="stat-card accent-green shadow-premium">
+        <span><i class="fa-solid fa-hand-holding-dollar me-1"></i> إضافات</span>
+        <strong>@Model.TotalBonuses.ToString("N3")</strong>
+        <small>مكافآت وإضافي</small>
+    </article>
+    <article class="stat-card accent-rose shadow-premium">
+        <span><i class="fa-solid fa-money-bill-minus me-1"></i> خصومات</span>
+        <strong>@Model.TotalDeductions.ToString("N3")</strong>
+        <small>خصومات وسلف</small>
+    </article>
+    <article class="stat-card accent-blue shadow-premium">
+        <span><i class="fa-solid fa-hashtag me-1"></i> عدد الحركات</span>
+        <strong>@Model.Adjustments.Count</strong>
+        <small>إجمالي العمليات</small>
+    </article>
+    <article class="stat-card accent-amber shadow-premium">
+        <span><i class="fa-solid fa-scale-balanced me-1"></i> الأثر الصافي</span>
+        <strong>@((Model.TotalBonuses - Model.TotalDeductions).ToString("N3"))</strong>
+        <small>تأثير المرتبات</small>
+    </article>
+</section>
+
+<section class="panel animate__animated animate__fadeInUp">
+    @if (!Model.Adjustments.Any())
+    {
+        <div class="empty-state py-5 text-center">
+            <i class="fa-solid fa-receipt fa-3x text-muted mb-3"></i>
+            <h3 class="fw-bold">لا توجد حركات مالية</h3>
+            <p class="text-muted">يمكنك إضافة مكافأة، خصم، أو سلفة قبل تشغيل كشوفات المرتبات.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table app-table datatable">
+                <thead>
+                    <tr>
+                        <th>الموظف</th>
+                        <th>الشهر</th>
+                        <th>النوع</th>
+                        <th>العنوان / الوصف</th>
+                        <th>القيمة</th>
+                        <th>ملاحظات</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var adjustment in Model.Adjustments)
+                {
+                    var isPositive = adjustment.Type is SalaryAdjustmentType.Bonus or SalaryAdjustmentType.Overtime;
+                    var badgeClass = isPositive ? "success" : "warning";
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle-sm me-2">
+                                    <i class="fa-solid fa-user-tag text-muted small"></i>
+                                </div>
+                                <div>
+                                    <strong class="d-block">@adjustment.Employee?.FullName</strong>
+                                    <small class="text-muted">#@adjustment.Employee?.EmployeeNumber</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fw-bold text-muted">@adjustment.Month.ToString("yyyy/MM")</td>
+                        <td>
+                            <span class="badge-soft @badgeClass">
+                                <i class="fa-solid @(isPositive ? "fa-arrow-up" : "fa-arrow-down") me-1"></i>
+                                @ArabicLabels.For(adjustment.Type)
+                            </span>
+                        </td>
+                        <td class="fw-bold">@adjustment.Title</td>
+                        <td class="fw-bold @(isPositive ? "text-success" : "text-danger")">
+                            @adjustment.Amount.ToString("N3")
+                        </td>
+                        <td class="text-muted small">@adjustment.Notes</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a class="btn btn-light btn-sm" asp-action="Edit" asp-route-id="@adjustment.Id" title="تعديل">
+                                    <i class="fa-solid fa-pen-to-square text-success"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@adjustment.Id" method="post" class="d-inline">
+                                    <button type="button" class="btn btn-light btn-sm btn-delete-confirm" data-entity="حركة @adjustment.Title للموظف @adjustment.Employee?.FullName" title="حذف">
+                                        <i class="fa-solid fa-trash-can text-danger"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

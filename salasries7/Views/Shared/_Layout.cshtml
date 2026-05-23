@@ -1,0 +1,246 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";
+    var pageTitle = ViewData["Title"]?.ToString() ?? "لوحة التحكم";
+    string Active(string name) => string.Equals(controller, name, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@pageTitle - منظومة المرتبات الاحترافية</title>
+    
+    <!-- Fonts: Rubik for modern Arabic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+
+    <!-- DataTables Advanced CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
+    
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/salasries7.styles.css" asp-append-version="true" />
+</head>
+<body data-page="@controller" class="premium-theme">
+    <div class="app-frame">
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="brand-block">
+                <a class="brand-mark" asp-area="" asp-controller="Home" asp-action="Index" aria-label="منظومة المرتبات">
+                    <span class="brand-logo">
+                        <i class="fa-solid fa-calculator"></i>
+                    </span>
+                    <span>
+                        <strong>منظومة المرتبات</strong>
+                        <small>الجيل السابع الذكي</small>
+                    </span>
+                </a>
+                <button class="icon-button sidebar-close" type="button" data-sidebar-close aria-label="إغلاق القائمة">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <nav class="side-nav" aria-label="التنقل الرئيسي">
+                <a class="side-link @Active("Home")" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="side-icon"><i class="fa-solid fa-house-chimney-window"></i></span>
+                    <span>لوحة التحكم</span>
+                </a>
+                
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="side-link @Active("Settings")" asp-area="" asp-controller="Settings" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-gears"></i></span>
+                        <span>إعدادات النظام</span>
+                    </a>
+                }
+
+                @if (User.IsInRole("Admin") || User.IsInRole("HR") || User.IsInRole("Accounting"))
+                {
+                    <a class="side-link @Active("Branches")" asp-area="" asp-controller="Branches" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-code-branch"></i></span>
+                        <span>الفروع والمواقع</span>
+                    </a>
+                    <a class="side-link @Active("Employees")" asp-area="" asp-controller="Employees" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-users-gear"></i></span>
+                        <span>إدارة الموظفين</span>
+                    </a>
+                    <a class="side-link @Active("Attendance")" asp-area="" asp-controller="Attendance" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-user-clock"></i></span>
+                        <span>سجل الحضور</span>
+                    </a>
+                    <a class="side-link @Active("SalaryAdjustments")" asp-area="" asp-controller="SalaryAdjustments" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                        <span>حركات المرتب</span>
+                    </a>
+                    <a class="side-link @Active("Payroll")" asp-area="" asp-controller="Payroll" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-receipt"></i></span>
+                        <span>كشوفات المرتبات</span>
+                    </a>
+                    <a class="side-link @Active("Reports")" asp-area="" asp-controller="Reports" asp-action="Index">
+                        <span class="side-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                        <span>التقارير والتحليلات</span>
+                    </a>
+                    
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="side-link @Active("Sync")" asp-area="" asp-controller="Sync" asp-action="Dashboard">
+                            <span class="side-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                            <span>المزامنة السحابية</span>
+                        </a>
+                    }
+                }
+
+                <a class="side-link @Active("Portal")" asp-area="" asp-controller="Portal" asp-action="Index">
+                    <span class="side-icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span>بوابة الموظف</span>
+                </a>
+            </nav>
+
+            <div class="side-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>النظام قيد التشغيل</strong>
+                    <small>اتصال آمن ومستقر</small>
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-backdrop" data-sidebar-close></div>
+
+        <div class="app-main">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="icon-button menu-button" type="button" data-sidebar-open aria-label="فتح القائمة">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </button>
+                    <div>
+                        <span>الواجهة الرئيسية</span>
+                        <strong>@pageTitle</strong>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+                    @await Component.InvokeAsync("NotificationCenter")
+                    @await Component.InvokeAsync("BranchSelector")
+                    
+                    <div class="dropdown ms-2">
+                        <button class="user-profile-btn" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="user-avatar text-white">@User.Identity?.Name?[0].ToString().ToUpper()</span>
+                            <span class="d-none d-md-inline ms-2 fw-bold text-xs" style="color: var(--text-muted)">@User.Identity?.Name</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg p-2" aria-labelledby="userDropdown">
+                            <li class="p-2 border-bottom mb-2">
+                                <div class="small fw-bold">@User.Identity?.Name</div>
+                                <div class="text-xs text-muted">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</div>
+                            </li>
+                            <li><a class="dropdown-item rounded-3" href="/Portal"><i class="fa-solid fa-user-circle me-2"></i>ملفي الشخصي</a></li>
+                            <li><a class="dropdown-item rounded-3" href="/Settings"><i class="fa-solid fa-cog me-2"></i>الإعدادات</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item rounded-3 text-danger" href="/Account/Logout"><i class="fa-solid fa-sign-out-alt me-2"></i>تسجيل الخروج</a></li>
+                        </ul>
+                    </div>
+                    
+                    <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="تبديل المظهر">
+                        <i class="fa-solid fa-circle-half-stroke theme-icon"></i>
+                    </button>
+                    
+                    <div class="user-profile-lite">
+                        <div class="avatar-circle">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="app-content" role="main">
+                @if (TempData["Message"] is string message)
+                {
+                    <div class="alert alert-info app-alert animate__animated animate__fadeInDown">
+                        <i class="fa-solid fa-circle-info me-2"></i>
+                        @message
+                    </div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables Advanced JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @@media print {
+            .app-sidebar, .topbar, .icon-button, .btn-primary, .btn-secondary, .alert, .modal { display: none !important; }
+            .app-main { margin: 0 !important; padding: 0 !important; }
+            .app-content { max-width: 100% !important; padding: 0 !important; }
+            .premium-card { border: none !important; box-shadow: none !important; }
+            .print-only { display: block !important; }
+        }
+        .print-only { display: none; }
+        
+        .user-profile-btn {
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 12px;
+            transition: background 0.3s ease;
+        }
+        .user-profile-btn:hover { background: rgba(0,0,0,0.02); }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        [data-bs-theme="dark"] .user-profile-btn:hover { background: rgba(255,255,255,0.05); }
+        .text-xs { font-size: 0.75rem; }
+    </style>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,452 @@
+@model Employee
+
+@{
+    ViewData["Title"] = $"ملف الموظف - {Model.FullName}";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div class="d-flex align-items-center">
+        <div class="avatar-circle bg-primary-light text-primary me-3 fs-3 shadow-sm">@Model.FullName.FirstOrDefault()</div>
+        <div>
+            <p class="eyebrow mb-1"><i class="fa-solid fa-hashtag me-1"></i> @Model.EmployeeNumber</p>
+            <h1 class="mb-0">@Model.FullName</h1>
+        </div>
+    </div>
+    <div class="heading-actions">
+        <a class="btn btn-light shadow-sm" asp-action="Index"><i class="fa-solid fa-arrow-right me-1"></i> رجوع</a>
+        <a class="btn btn-primary shadow-premium" asp-action="Edit" asp-route-id="@Model.Id"><i class="fa-solid fa-pen-to-square me-1"></i> تعديل البيانات</a>
+        <a class="btn btn-outline-danger shadow-sm" asp-action="Delete" asp-route-id="@Model.Id"><i class="fa-solid fa-trash-can me-1"></i> حذف</a>
+    </div>
+</section>
+
+<div class="row mt-4 animate__animated animate__fadeInUp">
+    <!-- Sidebar Info -->
+    <div class="col-lg-4 mb-4">
+        <div class="panel shadow-premium border-0 h-100">
+            <div class="text-center mb-4 pb-3 border-bottom">
+                <span class="badge-soft @(Model.Status == EmploymentStatus.Active ? "success" : "danger") mb-3">
+                    <i class="fa-solid fa-circle me-1 small"></i> @ArabicLabels.For(Model.Status)
+                </span>
+                <h4 class="fw-bold mb-1">@Model.JobTitle</h4>
+                <p class="text-muted small mb-0"><i class="fa-solid fa-building me-1"></i> @Model.Branch?.Name - @Model.Department</p>
+            </div>
+
+            <div class="info-group mb-4">
+                <label class="text-muted small fw-bold text-uppercase d-block mb-2">معلومات التواصل</label>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-box-sm bg-light text-primary me-3"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <small class="text-muted d-block">رقم الهاتف</small>
+                        <strong class="text-dark">@(Model.PhoneNumber ?? "غير مسجل")</strong>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-box-sm bg-light text-primary me-3"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <small class="text-muted d-block">البريد الإلكتروني</small>
+                        <strong class="text-dark">@(Model.PersonalEmail ?? "غير مسجل")</strong>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="icon-box-sm bg-light text-primary me-3"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <small class="text-muted d-block">العنوان</small>
+                        <strong class="text-dark">@(Model.FullAddress ?? "غير مسجل")</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <label class="text-muted small fw-bold text-uppercase d-block mb-2">التواريخ الهامة</label>
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fa-solid fa-calendar-check text-muted me-2 small"></i>
+                    <span class="small text-muted me-auto">تاريخ التعيين:</span>
+                    <span class="small fw-bold">@Model.HireDate.ToString("yyyy/MM/dd")</span>
+                </div>
+                @if (Model.NationalIdExpiry.HasValue) {
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fa-solid fa-id-card text-muted me-2 small"></i>
+                        <span class="small text-muted me-auto">انتهاء الرقم الوطني:</span>
+                        <span class="small fw-bold @(Model.NationalIdExpiry < DateTime.Today ? "text-danger" : "")">@Model.NationalIdExpiry?.ToString("yyyy/MM/dd")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Tabs -->
+    <div class="col-lg-8 mb-4">
+        <div class="panel shadow-premium border-0 p-0 overflow-hidden">
+            <ul class="nav nav-tabs nav-justified bg-light border-0" id="employeeTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active py-3 border-0 rounded-0" id="financial-tab" data-bs-toggle="tab" data-bs-target="#financial" type="button">
+                        <i class="fa-solid fa-money-bill-transfer me-1"></i> المالية
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link py-3 border-0 rounded-0" id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs" type="button">
+                        <i class="fa-solid fa-folder-open me-1"></i> الوثائق <span class="badge bg-primary ms-1">@Model.Documents.Count</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link py-3 border-0 rounded-0" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans" type="button">
+                        <i class="fa-solid fa-hand-holding-dollar me-1"></i> السلف
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link py-3 border-0 rounded-0" id="attendance-tab" data-bs-toggle="tab" data-bs-target="#attendance" type="button">
+                        <i class="fa-solid fa-user-check me-1"></i> الحضور
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content p-4" id="employeeTabsContent">
+                <!-- Financial Tab -->
+                <div class="tab-pane fade show active" id="financial" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="fa-solid fa-coins text-primary me-1"></i> تفاصيل الراتب</h5>
+                            <dl class="row mb-0">
+                                <dt class="col-7 text-muted fw-normal">الراتب الأساسي:</dt>
+                                <dd class="col-5 text-end fw-bold">@Model.BasicSalary.ToString("N3")</dd>
+                                
+                                <dt class="col-7 text-muted fw-normal">إجمالي البدلات:</dt>
+                                <dd class="col-5 text-end fw-bold text-success">@Model.TotalAllowances.ToString("N3")</dd>
+                                
+                                <dt class="col-7 text-muted fw-normal">خصم الضمان والضريبة:</dt>
+                                <dd class="col-5 text-end fw-bold text-danger">@((Model.SocialSecurityDeduction + Model.TaxDeduction).ToString("N3"))</dd>
+                                
+                                <dt class="col-12"><hr class="my-2 op-1"></dt>
+                                
+                                <dt class="col-7 text-primary fs-5">الصافي الشهري:</dt>
+                                <dd class="col-5 text-end text-primary fs-5 fw-bold">@Model.MonthlyGrossSalary.ToString("N3")</dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="fa-solid fa-building-columns text-primary me-1"></i> البيانات البنكية</h5>
+                            <div class="bg-light p-3 rounded-3">
+                                <p class="mb-2"><small class="text-muted d-block">اسم البنك</small> <strong>@(Model.BankName ?? "-")</strong></p>
+                                <p class="mb-2"><small class="text-muted d-block">رقم الحساب</small> <strong>@(Model.AccountNumber ?? "-")</strong></p>
+                                <p class="mb-0"><small class="text-muted d-block">IBAN</small> <strong class="small">@(Model.IBAN ?? "-")</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents Tab -->
+                <div class="tab-pane fade" id="docs" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">أرشيف الملفات</h5>
+                        <button class="btn btn-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#uploadDocModal">
+                            <i class="fa-solid fa-cloud-arrow-up me-1"></i> رفع ملف جديد
+                        </button>
+                    </div>
+
+                    @if (!Model.Documents.Any()) {
+                        <div class="text-center py-4 bg-light rounded-3">
+                            <i class="fa-solid fa-file-circle-question fa-2x text-muted mb-2"></i>
+                            <p class="text-muted small">لا توجد وثائق مرفوعة لهذا الموظف</p>
+                        </div>
+                    } else {
+                        <div class="list-group list-group-flush">
+                            @foreach (var doc in Model.Documents) {
+                                <div class="list-group-item d-flex align-items-center py-3 bg-transparent border-bottom px-0">
+                                    <div class="icon-box-sm bg-primary-light text-primary me-3"><i class="fa-solid fa-file-pdf"></i></div>
+                                    <div class="flex-grow-1">
+                                        <strong class="d-block">@ArabicLabels.For(doc.Type)</strong>
+                                        <small class="text-muted">@doc.FileName | رفعت في @doc.UploadDate.ToString("yyyy/MM/dd")</small>
+                                        @if (doc.ExpiryDate.HasValue) {
+                                            <span class="badge @(doc.IsExpired ? "bg-danger" : (doc.IsExpiringSoon ? "bg-warning" : "bg-light text-dark")) ms-2 small">
+                                                انتهاء: @doc.ExpiryDate?.ToString("yyyy/MM/dd")
+                                            </span>
+                                        }
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-light btn-sm shadow-sm" onclick="previewDoc('@doc.FilePath', '@ArabicLabels.For(doc.Type)')">
+                                            <i class="fa-solid fa-eye text-primary"></i>
+                                        </button>
+                                        <a href="@doc.FilePath" target="_blank" class="btn btn-light btn-sm shadow-sm"><i class="fa-solid fa-download"></i></a>
+                                        <form asp-action="DeleteDocument" asp-route-id="@doc.Id" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الملف؟');">
+                                            <button type="submit" class="btn btn-light btn-sm text-danger shadow-sm"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Loans Tab -->
+                <div class="tab-pane fade" id="loans" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">السلف والقروض</h5>
+                        <button class="btn btn-success btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addLoanModal">
+                            <i class="fa-solid fa-hand-holding-dollar me-1"></i> تسجيل سلفة جديدة
+                        </button>
+                    </div>
+
+                    @if (!Model.Loans.Any()) {
+                        <div class="text-center py-5">
+                            <i class="fa-solid fa-hand-holding-dollar fa-3x text-muted mb-3 op-2"></i>
+                            <p class="text-muted">لا توجد سلف نشطة لهذا الموظف</p>
+                        </div>
+                    } else {
+                         <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>المبلغ</th>
+                                        <th>القسط</th>
+                                        <th>المتبقي</th>
+                                        <th>البدء</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var loan in Model.Loans) {
+                                        <tr class="@(loan.Status == LoanStatus.Active ? "table-active-row" : "text-muted")">
+                                            <td class="fw-bold">@loan.TotalAmount.ToString("N3")</td>
+                                            <td>@loan.MonthlyInstallment.ToString("N3")</td>
+                                            <td class="text-danger fw-bold">@loan.RemainingAmount.ToString("N3")</td>
+                                            <td class="small">@loan.StartDate.ToString("yyyy/MM")</td>
+                                            <td><span class="badge-soft @(loan.Status == LoanStatus.Active ? "info" : "success") small">@ArabicLabels.For(loan.Status)</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+
+                <!-- Attendance Tab -->
+                <div class="tab-pane fade" id="attendance" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">سجل الإجازات والحضور</h5>
+                        <div class="d-flex gap-2">
+                             <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addLeaveModal">
+                                <i class="fa-solid fa-calendar-plus me-1"></i> تسجيل إجازة
+                            </button>
+                            <a asp-controller="Attendance" asp-action="Index" class="btn btn-light btn-sm rounded-pill border">السجل الكامل</a>
+                        </div>
+                    </div>
+                    
+                    <h6 class="small fw-bold text-muted mb-2">الإجازات المسجلة</h6>
+                    @if (Model.Leaves != null && Model.Leaves.Any()) {
+                        <div class="table-responsive mb-4">
+                            <table class="table table-sm align-middle border-bottom">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>النوع</th>
+                                        <th>الفترة</th>
+                                        <th>الأيام</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var leave in Model.Leaves) {
+                                        <tr>
+                                            <td><span class="badge-soft @(leave.Type == LeaveType.Sick ? "danger" : "info") small">@ArabicLabels.For(leave.Type)</span></td>
+                                            <td class="small">@leave.StartDate.ToString("MM/dd") - @leave.EndDate.ToString("MM/dd")</td>
+                                            <td class="small">@leave.DurationDays يوم</td>
+                                            <td><i class="fa-solid fa-circle-check text-success"></i></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <h6 class="small fw-bold text-muted mb-2">سجل الحضور الأخير</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>تأخير</th>
+                                    <th>إضافي</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var record in Model.AttendanceRecords) {
+                                    <tr>
+                                        <td>@record.WorkDate.ToString("MM/dd")</td>
+                                        <td><span class="badge-soft @(record.Status == AttendanceStatus.Present ? "success" : "danger") small">@ArabicLabels.For(record.Status)</span></td>
+                                        <td class="small">@record.LateMinutes د</td>
+                                        <td class="small">@record.OvertimeHours ساعة</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Upload Document -->
+<div class="modal fade" id="uploadDocModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-premium border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-file-import text-primary me-1"></i> رفع مستند جديد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UploadDocument" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="employeeId" value="@Model.Id" />
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">نوع المستند</label>
+                        <select name="type" class="form-select" asp-items="Html.GetEnumSelectList<DocumentType>()"></select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">تاريخ الانتهاء (إن وجد)</label>
+                        <input type="date" name="expiryDate" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">اختيار الملف</label>
+                        <input type="file" name="file" class="form-control" required />
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label small fw-bold">ملاحظات</label>
+                        <textarea name="notes" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">بدء الرفع</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Add Loan -->
+<div class="modal fade" id="addLoanModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-premium border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-success"><i class="fa-solid fa-comments-dollar me-1"></i> تسجيل سلفة جديدة</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Loans" asp-action="Create" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="employeeId" value="@Model.Id" />
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">إجمالي المبلغ</label>
+                            <input type="number" name="totalAmount" step="0.001" class="form-control shadow-sm" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">القسط الشهري</label>
+                            <input type="number" name="monthlyInstallment" step="0.001" class="form-control shadow-sm" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">تاريخ بدء الخصم</label>
+                            <input type="date" name="startDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control shadow-sm" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">ملاحظات</label>
+                            <textarea name="notes" class="form-control shadow-sm" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4">تثبيت السلفة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Add Leave -->
+<div class="modal fade" id="addLeaveModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-premium border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-primary"><i class="fa-solid fa-calendar-plus me-1"></i> تسجيل إجازة جديدة</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Leaves" asp-action="Create" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="employeeId" value="@Model.Id" />
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">نوع الإجازة</label>
+                            <select name="type" class="form-select shadow-sm" asp-items="Html.GetEnumSelectList<LeaveType>()"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">من تاريخ</label>
+                            <input type="date" name="startDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control shadow-sm" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">إلى تاريخ</label>
+                            <input type="date" name="endDate" value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" class="form-control shadow-sm" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">السبب / ملاحظات</label>
+                            <textarea name="reason" class="form-control shadow-sm" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">تأكيد الإجازة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Document Preview -->
+<div class="modal fade" id="docPreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content shadow-premium border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="previewTitle">معاينة المستند</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 mt-3">
+                <div id="previewContainer" style="height: 70vh; background: #f8fafc; display: flex; align-items: center; justify-content: center;">
+                    <p class="text-muted">جاري تحميل المعاينة...</p>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function previewDoc(url, title) {
+            const modal = new bootstrap.Modal(document.getElementById('docPreviewModal'));
+            document.getElementById('previewTitle').innerText = 'معاينة: ' + title;
+            const container = document.getElementById('previewContainer');
+            
+            const ext = url.split('.').pop().toLowerCase();
+            if (ext === 'pdf') {
+                container.innerHTML = `<iframe src="${url}" width="100%" height="100%" style="border: none;"></iframe>`;
+            } else if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) {
+                container.innerHTML = `<img src="${url}" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
+            } else {
+                container.innerHTML = `<div class="text-center p-5">
+                    <i class="fa-solid fa-file-circle-exclamation fa-3x mb-3 text-warning"></i>
+                    <p>المعاينة غير مدعومة لهذا النوع من الملفات. يمكنك تحميله للمشاهدة.</p>
+                    <a href="${url}" target="_blank" class="btn btn-primary rounded-pill">تحميل الملف</a>
+                </div>`;
+            }
+            
+            modal.show();
+        }
+    </script>
+}

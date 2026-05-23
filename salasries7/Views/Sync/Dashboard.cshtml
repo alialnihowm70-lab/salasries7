@@ -1,0 +1,122 @@
+@model dynamic
+@{
+    ViewData["Title"] = "مركز المزامنة السحابية";
+}
+
+<div class="premium-container animate__animated animate__fadeIn">
+    <div class="page-header-block mb-4">
+        <div class="header-content">
+            <h1 class="premium-title">المزامنة مع الويب (Render)</h1>
+            <p class="text-muted">تأمين ومزامنة بياناتك المحلية مع النسخة السحابية لضمان استمرارية العمل من أي مكان.</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="premium-card text-center p-5">
+                <div class="mb-4">
+                    <div class="sync-icon-wrapper mb-3">
+                        <i class="fa-solid fa-cloud-arrow-up fa-4x text-primary animate__animated animate__pulse animate__infinite"></i>
+                    </div>
+                    <h3 class="fw-bold">بوابة المزامنة الذكية</h3>
+                </div>
+
+                <div class="alert bg-light border-0 rounded-pill py-3 px-4 mb-4">
+                    <span class="text-muted">السجلات المعلقة للمزامنة: </span>
+                    <span class="fw-bold text-primary ms-2" id="unsyncedCount">@ViewBag.UnsyncedCount</span>
+                </div>
+
+                <div id="syncProgress" class="d-none mb-4">
+                    <div class="progress rounded-pill shadow-sm" style="height: 10px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                    </div>
+                    <p class="small text-muted mt-2">جاري تأمين الاتصال ومزامنة البيانات مع Render...</p>
+                </div>
+
+                <div id="syncResult" class="d-none alert mb-4 py-3"></div>
+
+                <div class="d-grid gap-3">
+                    <button id="btnSync" class="btn btn-primary btn-lg rounded-pill shadow-premium py-3">
+                        <i class="fa-solid fa-sync me-2"></i> بدء المزامنة الآن
+                    </button>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-link text-muted">العودة للوحة التحكم</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="premium-card">
+                <div class="card-header-premium">
+                    <h5 class="m-0 small fw-bold">حالة المزامنة الحالية</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between mb-3">
+                            <span class="text-muted"><i class="fa-solid fa-circle-check text-success me-2"></i> الاتصال بـ Render:</span>
+                            <span class="badge bg-success-soft text-success">نشط</span>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <span class="text-muted"><i class="fa-solid fa-shield-halved text-info me-2"></i> حماية X-Sync-Key:</span>
+                            <span class="badge bg-info-soft text-info">مفعلة</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('btnSync').addEventListener('click', async function() {
+            const btn = this;
+            const progress = document.getElementById('syncProgress');
+            const resultDiv = document.getElementById('syncResult');
+            const countSpan = document.getElementById('unsyncedCount');
+
+            btn.disabled = true;
+            progress.classList.remove('d-none');
+            resultDiv.classList.add('d-none');
+
+            try {
+                const response = await fetch('/Sync/RunPush', { method: 'POST' });
+                const result = await response.json();
+
+                progress.classList.add('d-none');
+                resultDiv.classList.remove('d-none');
+
+                if (result.success) {
+                    resultDiv.className = 'alert alert-success border-0 rounded-pill py-3';
+                    resultDiv.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i> تمت المزامنة بنجاح! تم رفع <strong>${result.pushed}</strong> سجل.`;
+                    countSpan.innerText = '0';
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                } else {
+                    resultDiv.className = 'alert alert-danger border-0 rounded-pill py-3';
+                    resultDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation me-2"></i> فشلت المزامنة: ${result.message}`;
+                }
+            } catch (error) {
+                progress.classList.add('d-none');
+                resultDiv.classList.remove('d-none');
+                resultDiv.className = 'alert alert-danger border-0 rounded-pill py-3';
+                resultDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation me-2"></i> خطأ في الاتصال بالسيرفر. تأكد من توفر الإنترنت.`;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
+}
+
+<style>
+    .sync-icon-wrapper {
+        width: 120px;
+        height: 120px;
+        background: rgba(99, 102, 241, 0.05);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .bg-success-soft { background-color: rgba(25, 135, 84, 0.1); }
+    .bg-info-soft { background-color: rgba(13, 202, 240, 0.1); }
+</style>

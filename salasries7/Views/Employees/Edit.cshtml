@@ -1,0 +1,22 @@
+@model EmployeeFormViewModel
+
+@{
+    ViewData["Title"] = "تعديل موظف";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@Model.Employee.EmployeeNumber</p>
+        <h1>تعديل موظف</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <form asp-action="Edit" method="post">
+        <partial name="_Form" model="Model" />
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

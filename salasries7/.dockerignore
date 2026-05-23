@@ -1,0 +1,16 @@
+**/.dockerignore
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/node_modules
+**/wwwroot/lib
+/salasries7/bin
+/salasries7/obj
+/salasries7/node_modules
+/salasries7/ClientApp/dist
+/salasries7/ClientApp/node_modules
+electron.manifest.json
+.gemini

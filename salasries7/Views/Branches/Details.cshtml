@@ -1,0 +1,46 @@
+@model Branch
+
+@{
+    ViewData["Title"] = "تفاصيل الفرع";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@Model.Code</p>
+        <h1>@Model.Name</h1>
+    </div>
+    <div class="heading-actions">
+        <a class="btn btn-light" asp-action="Index">رجوع</a>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">تعديل</a>
+        <a class="btn btn-light" asp-action="Delete" asp-route-id="@Model.Id">حذف</a>
+    </div>
+</section>
+
+<section class="details-grid">
+    <div class="panel">
+        <h2>بيانات الفرع</h2>
+        <dl class="details-list">
+            <dt>المدينة</dt>
+            <dd>@Model.City</dd>
+            <dt>العنوان</dt>
+            <dd>@Model.Address</dd>
+            <dt>الحالة</dt>
+            <dd>@(Model.IsActive ? "نشط" : "موقوف")</dd>
+        </dl>
+    </div>
+    <div class="panel">
+        <h2>الموظفون</h2>
+        <div class="stack-list">
+            @foreach (var employee in Model.Employees)
+            {
+                <a class="stack-item" asp-controller="Employees" asp-action="Details" asp-route-id="@employee.Id">
+                    <span>
+                        <strong>@employee.FullName</strong>
+                        <small>@employee.EmployeeNumber - @employee.JobTitle</small>
+                    </span>
+                    <b>@employee.MonthlyGrossSalary.ToString("N3")</b>
+                </a>
+            }
+        </div>
+    </div>
+</section>

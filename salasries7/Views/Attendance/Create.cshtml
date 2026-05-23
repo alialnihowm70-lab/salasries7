@@ -1,0 +1,22 @@
+@model AttendanceFormViewModel
+
+@{
+    ViewData["Title"] = "تسجيل حضور";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">سجل يومي</p>
+        <h1>تسجيل حضور</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <form asp-action="Create" method="post">
+        <partial name="_Form" model="Model" />
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

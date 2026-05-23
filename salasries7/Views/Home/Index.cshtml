@@ -1,0 +1,215 @@
+@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "لوحة التحكم الرئيسية";
+    var latestNet = Model.LastPayrollRun?.Lines.Sum(line => line.NetSalary) ?? 0m;
+    var latestGross = Model.LastPayrollRun?.Lines.Sum(line => line.GrossSalary) ?? 0m;
+    var maxBranchPayroll = Model.Branches.Select(branch => branch.MonthlyGrossPayroll).DefaultIfEmpty(1m).Max();
+}
+
+@if (!Model.HasSelectedBranch)
+{
+    <section class="branch-gate animate__animated animate__zoomIn">
+        <div class="branch-gate-copy">
+            <p class="eyebrow text-primary fw-bold mb-2"><i class="fa-solid fa-building-shield me-2"></i> منظومة الرواتب سحابة آمنة</p>
+            <h1 class="display-3 fw-bold mb-4">مرحباً بك مجدداً</h1>
+            <p class="lead mb-0">للدخول إلى لوحة التحكم، يرجى تحديد الفرع الذي ترغب في إدارته حالياً.</p>
+        </div>
+
+        <div class="branch-choice-grid">
+            @foreach (var branch in Model.AvailableBranches)
+            {
+                <form asp-controller="BranchContext" asp-action="Set" method="post" class="branch-choice-card">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="branchId" value="@branch.Id" />
+                    <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Home")" />
+                    <button type="submit" class="border-0 shadow-lg">
+                        <div class="branch-icon-box shadow-sm">
+                            <i class="fa-solid fa-code-branch"></i>
+                        </div>
+                        <span class="badge bg-primary-light text-primary mb-2 px-3 rounded-pill fw-bold">ID: @branch.Code</span>
+                        <strong class="d-block fs-4 text-dark mb-1">@branch.Name</strong>
+                        <small class="text-muted fw-bold"><i class="fa-solid fa-location-dot me-1"></i> @branch.City</small>
+                    </button>
+                </form>
+            }
+        </div>
+    </section>
+}
+else
+{
+    <header class="hero-panel shadow-premium animate__animated animate__fadeInDown">
+        <div class="hero-copy">
+            <p class="eyebrow"><i class="fa-solid fa-star text-warning me-1"></i> النظام نشط الآن</p>
+            <h1>أهلاً بك في وحدة تحكم <span class="text-primary">@Model.SelectedBranch?.Name</span></h1>
+            <p class="text-muted">أنت الآن تقوم بإدارة العمليات المالية والإدارية الخاصة بهذا الفرع فقط.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="btn btn-primary shadow-premium px-4" asp-controller="Payroll" asp-action="Create">
+                <i class="fa-solid fa-bolt me-1"></i> تشغيل مرتب جديد
+            </a>
+            <a class="btn btn-light px-4 border" asp-controller="Employees" asp-action="Create">
+                <i class="fa-solid fa-user-plus me-1"></i> إضافة موظف
+            </a>
+        </div>
+    </header>
+
+    <section class="stats-grid mt-4">
+        <article class="stat-card accent-blue shadow-premium border-0 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+            <span><i class="fa-solid fa-fingerprint me-1"></i> معرّف الفرع</span>
+            <strong>@Model.SelectedBranch?.Code</strong>
+            <small>@Model.SelectedBranch?.City</small>
+        </article>
+        <article class="stat-card accent-green shadow-premium border-0 animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
+            <span><i class="fa-solid fa-users me-1"></i> القوى العاملة</span>
+            <strong class="text-success">@Model.EmployeeCount</strong>
+            <small>@Model.ActiveEmployeeCount موظف نشط حالياً</small>
+        </article>
+        <article class="stat-card accent-amber shadow-premium border-0 animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
+            <span><i class="fa-solid fa-chart-line me-1"></i> حركات الشهر</span>
+            <strong class="text-warning">@((Model.CurrentMonthAdditions - Model.CurrentMonthDeductions).ToString("N2"))</strong>
+            <small>صافي الإضافات والخصومات</small>
+        </article>
+        <article class="stat-card accent-rose shadow-premium border-0 animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">
+            <span><i class="fa-solid fa-money-check-dollar me-1"></i> آخر مرتبات</span>
+            <strong class="text-danger">@latestNet.ToString("N3")</strong>
+            <small>@(Model.LastPayrollRun is null ? "لا يوجد تشغيل" : $"{ArabicLabels.MonthName(Model.LastPayrollRun.Month)} {Model.LastPayrollRun.Year}")</small>
+        </article>
+    </section>
+
+    <div class="content-grid mt-4">
+        <div class="panel shadow-premium border-0 animate__animated animate__fadeInUp">
+            <div class="panel-title mb-4">
+                <div>
+                    <p class="eyebrow"><i class="fa-solid fa-chart-bar me-1"></i> تحليل الرواتب</p>
+                    <h2 class="fw-bold">الكتلة الشهرية للفروع</h2>
+                </div>
+                <a class="btn btn-light btn-sm rounded-pill" asp-controller="Employees" asp-action="Index">إدارة الموظفين</a>
+            </div>
+            <div class="branch-bars">
+                @foreach (var branch in Model.Branches)
+                {
+                    var width = maxBranchPayroll == 0 ? 0 : Math.Round(branch.MonthlyGrossPayroll / maxBranchPayroll * 100, 0);
+                    <div class="branch-bar-row border-0 bg-light-subtle mb-2">
+                        <span class="branch-name fw-bold">@branch.BranchName</span>
+                        <div class="branch-track flex-grow-1 mx-3 rounded-pill" style="height: 12px; background: #eaedf2;">
+                            <div class="branch-fill rounded-pill" style="width: @width%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));"></div>
+                        </div>
+                        <span class="branch-meta me-3 small fw-bold">@branch.EmployeeCount موظف</span>
+                        <strong class="text-primary">@branch.MonthlyGrossPayroll.ToString("N0")</strong>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <aside class="panel shadow-premium border-0 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="panel-title mb-4">
+                <div>
+                    <p class="eyebrow"><i class="fa-solid fa-bolt me-1"></i> المهام</p>
+                    <h2 class="fw-bold">عمليات سريعة</h2>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <a class="d-flex align-items-center p-3 rounded-3 mb-2 text-decoration-none bg-light hover-bg-primary-light transition-all" asp-controller="Payroll" asp-action="Create">
+                    <div class="icon-box bg-white shadow-sm rounded-3 p-2 me-3 text-primary"><i class="fa-solid fa-receipt"></i></div>
+                    <div>
+                        <strong class="d-block text-dark">تشغيل المرتب</strong>
+                        <small class="text-muted">إصدار كشف جديد</small>
+                    </div>
+                </a>
+                <a class="d-flex align-items-center p-3 rounded-3 mb-2 text-decoration-none bg-light hover-bg-primary-light transition-all" asp-controller="Employees" asp-action="Create">
+                    <div class="icon-box bg-white shadow-sm rounded-3 p-2 me-3 text-success"><i class="fa-solid fa-user-plus"></i></div>
+                    <div>
+                        <strong class="d-block text-dark">إضافة موظف</strong>
+                        <small class="text-muted">تسجيل بيانات جديدة</small>
+                    </div>
+                </a>
+                <a class="d-flex align-items-center p-3 rounded-3 mb-2 text-decoration-none bg-light hover-bg-primary-light transition-all" asp-controller="Attendance" asp-action="Create">
+                    <div class="icon-box bg-white shadow-sm rounded-3 p-2 me-3 text-info"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <strong class="d-block text-dark">سجل الحضور</strong>
+                        <small class="text-muted">إثبات اليوميات</small>
+                    </div>
+                </a>
+                <a class="d-flex align-items-center p-3 rounded-3 mb-2 text-decoration-none bg-light hover-bg-primary-light transition-all" asp-controller="SalaryAdjustments" asp-action="Create">
+                    <div class="icon-box bg-white shadow-sm rounded-3 p-2 me-3 text-warning"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div>
+                        <strong class="d-block text-dark">حركة مالية</strong>
+                        <small class="text-muted">إضافة علاوة أو خصم</small>
+                    </div>
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <section class="content-grid mt-4">
+        <div class="panel shadow-premium border-0 animate__animated animate__fadeInUp">
+            <div class="panel-title mb-4">
+                <div>
+                    <p class="eyebrow"><i class="fa-solid fa-user-clock me-1"></i> انضموا حديثاً</p>
+                    <h2 class="fw-bold">آخر الموظفين المضافين</h2>
+                </div>
+                <a class="btn btn-light btn-sm rounded-pill" asp-controller="Employees" asp-action="Index">عرض الكل</a>
+            </div>
+            <div class="stack-list">
+                @foreach (var employee in Model.RecentEmployees)
+                {
+                    <a class="d-flex align-items-center p-3 rounded-3 mb-2 text-decoration-none bg-white shadow-sm hover-translate-x transition-all border" asp-controller="Employees" asp-action="Details" asp-route-id="@employee.Id">
+                        <div class="avatar-circle me-3 bg-primary-light text-primary">@employee.FullName.FirstOrDefault()</div>
+                        <div class="flex-grow-1">
+                            <strong class="d-block text-dark">@employee.FullName</strong>
+                            <small class="text-muted">@employee.JobTitle</small>
+                        </div>
+                        <b class="text-primary fw-bold">@employee.MonthlyGrossSalary.ToString("N0")</b>
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="panel shadow-premium border-0 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="panel-title mb-4">
+                <div>
+                    <p class="eyebrow"><i class="fa-solid fa-wallet me-1"></i> الكشوفات</p>
+                    <h2 class="fw-bold">ملخص آخر تشغيل</h2>
+                </div>
+                @if (Model.LastPayrollRun is not null)
+                {
+                    <a class="btn btn-light btn-sm rounded-pill" asp-controller="Payroll" asp-action="Details" asp-route-id="@Model.LastPayrollRun.Id">التفاصيل</a>
+                }
+            </div>
+
+            @if (Model.LastPayrollRun is null)
+            {
+                <div class="empty-state py-5 text-center">
+                    <i class="fa-solid fa-file-circle-exclamation fa-3x text-muted mb-3"></i>
+                    <h5 class="fw-bold">لا يوجد تشغيل</h5>
+                    <p class="text-muted small">ابدأ بتشغيل مرتب لشهر @ArabicLabels.MonthName(DateTime.Now.Month).</p>
+                </div>
+            }
+            else
+            {
+                <div class="bg-light p-4 rounded-4 border">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <span class="d-block text-muted small">الفترة</span>
+                            <strong class="d-block">@ArabicLabels.MonthName(Model.LastPayrollRun.Month) @Model.LastPayrollRun.Year</strong>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-block text-muted small">الحالة</span>
+                            <span class="badge-soft success small">@ArabicLabels.For(Model.LastPayrollRun.Status)</span>
+                        </div>
+                        <div class="col-12"><hr class="my-2 op-1"></div>
+                        <div class="col-6">
+                            <span class="d-block text-muted small">الإجمالي</span>
+                            <strong class="d-block">@latestGross.ToString("N2")</strong>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-block text-primary small">صافي الفرع</span>
+                            <strong class="d-block fs-4 text-primary">@latestNet.ToString("N2")</strong>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}

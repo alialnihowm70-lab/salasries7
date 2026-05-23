@@ -1,0 +1,74 @@
+Using launch settings from C:\Users\alial\source\repos\salasries7\salasries7\Properties\launchSettings.json...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (83ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (191ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      
+      IF EXISTS
+          (SELECT *
+           FROM [sys].[objects] o
+           WHERE [o].[type] = 'U'
+           AND [o].[is_ms_shipped] = 0
+           AND [o].[object_id] NOT IN (SELECT [ep].[major_id]
+              FROM [sys].[extended_properties] AS [ep]
+              WHERE [ep].[minor_id] = 0
+                  AND [ep].[class] = 1
+                  AND [ep].[name] = N'microsoft_database_tools_support'
+          )
+      )
+      SELECT 1 ELSE SELECT 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Branches] AS [b]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5251
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\alial\source\repos\salasries7\salasries7
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]

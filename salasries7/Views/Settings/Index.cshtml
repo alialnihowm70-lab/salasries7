@@ -1,0 +1,74 @@
+@model IEnumerable<IGrouping<string, salasries7.Models.SystemSetting>>
+
+@{
+    ViewData["Title"] = "إعدادات النظام الذكية";
+}
+
+<div class="premium-container animate__animated animate__fadeIn">
+    <div class="page-header-block mb-4">
+        <div class="header-content">
+            <h1 class="premium-title">لوحة التحكم في المتغيرات</h1>
+            <p class="text-muted">تعديل القواعد المالية والثوابت الإدارية للمنظومة بالكامل</p>
+        </div>
+    </div>
+
+    <form asp-action="Update" method="post">
+        @foreach (var group in Model)
+        {
+            <div class="premium-card mb-4 shadow-sm border-0">
+                <div class="card-header-premium bg-light d-flex align-items-center">
+                    <div class="header-accent me-3"></div>
+                    <h5 class="m-0 fw-bold">@group.Key</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        @foreach (var setting in group)
+                        {
+                            <div class="col-md-6">
+                                <div class="form-group mb-0">
+                                    <label class="form-label fw-bold mb-2">@setting.Description</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border-end-0 text-muted">
+                                            @if (setting.Key.Contains("Rate")) { <i class="fa-solid fa-percent"></i> }
+                                            else { <i class="fa-solid fa-keyboard"></i> }
+                                        </span>
+                                        <input type="text" name="settings[@setting.Key]" value="@setting.Value" class="form-control border-start-0" required />
+                                    </div>
+                                    <small class="text-muted d-block mt-1">الرمز البرمجي: <code>@setting.Key</code></small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="sticky-actions-bar glass-premium p-3 rounded-4 shadow-lg animate__animated animate__fadeInUp">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="text-muted small">
+                    <i class="fa-solid fa-circle-info me-1"></i> يتم تطبيق التغييرات فوراً على جميع الحسابات والتقارير الجديدة.
+                </div>
+                <button type="submit" class="premium-btn primary px-5">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> حفظ كافة التغييرات
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .header-accent {
+        width: 4px;
+        height: 24px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+    .sticky-actions-bar {
+        position: sticky;
+        bottom: 1.5rem;
+        z-index: 1000;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .form-group:hover label { color: var(--primary); transition: color 0.3s ease; }
+    .input-group:focus-within { transform: scale(1.02); transition: transform 0.3s ease; }
+</style>

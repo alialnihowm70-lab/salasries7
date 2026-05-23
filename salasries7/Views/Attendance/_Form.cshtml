@@ -1,0 +1,66 @@
+@model AttendanceFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input type="hidden" asp-for="Record.Id" />
+
+<div class="context-note">
+    <span>الفرع</span>
+    <strong>@Model.BranchName</strong>
+    <small>الحضور المسجل هنا خاص بموظفي الفرع المختار فقط.</small>
+</div>
+
+<div class="form-grid">
+    <div class="mb-3">
+        <label asp-for="Record.EmployeeId" class="form-label"></label>
+        <select asp-for="Record.EmployeeId" asp-items="Model.Employees" class="form-select">
+            <option value="">اختر الموظف</option>
+        </select>
+        <span asp-validation-for="Record.EmployeeId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.WorkDate" class="form-label"></label>
+        <input asp-for="Record.WorkDate" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control" />
+        <span asp-validation-for="Record.WorkDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.Status" class="form-label"></label>
+        <select asp-for="Record.Status" class="form-select">
+            <option value="@AttendanceStatus.Present">حاضر</option>
+            <option value="@AttendanceStatus.Absent">غائب</option>
+            <option value="@AttendanceStatus.Vacation">إجازة</option>
+            <option value="@AttendanceStatus.SickLeave">إجازة مرضية</option>
+        </select>
+        <span asp-validation-for="Record.Status" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.CheckIn" class="form-label"></label>
+        <input asp-for="Record.CheckIn" type="time" class="form-control" />
+        <span asp-validation-for="Record.CheckIn" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.CheckOut" class="form-label"></label>
+        <input asp-for="Record.CheckOut" type="time" class="form-control" />
+        <span asp-validation-for="Record.CheckOut" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.LateMinutes" class="form-label"></label>
+        <input asp-for="Record.LateMinutes" class="form-control" />
+        <span asp-validation-for="Record.LateMinutes" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Record.OvertimeHours" class="form-label"></label>
+        <input asp-for="Record.OvertimeHours" class="form-control" />
+        <span asp-validation-for="Record.OvertimeHours" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-4">
+    <label asp-for="Record.Notes" class="form-label"></label>
+    <textarea asp-for="Record.Notes" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="Record.Notes" class="text-danger"></span>
+</div>
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-primary">حفظ</button>
+    <a class="btn btn-light" asp-action="Index">رجوع</a>
+</div>

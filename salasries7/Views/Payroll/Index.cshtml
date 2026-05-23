@@ -1,0 +1,74 @@
+@model IEnumerable<PayrollRun>
+
+@{
+    ViewData["Title"] = "كشوفات المرتبات";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div>
+        <p class="eyebrow"><i class="fa-solid fa-file-invoice me-1"></i> المالية والمحاسبة</p>
+        <h1><i class="fa-solid fa-receipt text-primary me-2"></i> سجل المرتبات</h1>
+    </div>
+    <div class="heading-actions">
+        <a class="btn btn-primary shadow-premium" asp-action="Create">
+            <i class="fa-solid fa-play-circle me-1"></i> تشغيل مرتب جديد
+        </a>
+    </div>
+</section>
+
+<section class="panel animate__animated animate__fadeInUp">
+    <div class="panel-title mb-4">
+        <h2><i class="fa-solid fa-history me-2"></i> أرشيف تشغيلات المرتبات</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table app-table datatable">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-calendar-day me-1"></i> الفترة</th>
+                    <th><i class="fa-solid fa-code-branch me-1"></i> الفرع</th>
+                    <th><i class="fa-solid fa-users me-1"></i> الموظفون</th>
+                    <th><i class="fa-solid fa-money-bill-wave me-1"></i> الإجمالي</th>
+                    <th><i class="fa-solid fa-minus-circle me-1"></i> الخصومات</th>
+                    <th><i class="fa-solid fa-wallet me-1"></i> الصافي</th>
+                    <th><i class="fa-solid fa-circle-check me-1"></i> الحالة</th>
+                    <th class="text-center"><i class="fa-solid fa-bolt me-1"></i> الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var run in Model)
+            {
+                var totalGross = run.Lines.Sum(line => line.GrossSalary);
+                var totalDeductions = run.Lines.Sum(line => line.SocialSecurityDeduction + line.TaxDeduction + line.OtherDeductions);
+                var totalNet = run.Lines.Sum(line => line.NetSalary);
+                var statusClass = run.Status == PayrollRunStatus.Paid ? "success" : "info";
+                <tr>
+                    <td class="fw-bold">@ArabicLabels.MonthName(run.Month) @run.Year</td>
+                    <td><i class="fa-solid fa-location-dot me-1 text-muted small"></i> @run.Branch?.Name</td>
+                    <td class="text-center">
+                        <span class="badge rounded-pill bg-light text-dark border">
+                            @run.Lines.Count موظف
+                        </span>
+                    </td>
+                    <td class="text-muted">@totalGross.ToString("N3")</td>
+                    <td class="text-danger">@totalDeductions.ToString("N3")</td>
+                    <td class="fw-bold text-primary">@totalNet.ToString("N3")</td>
+                    <td>
+                        <span class="badge-soft @statusClass">
+                            <i class="fa-solid @(run.Status == PayrollRunStatus.Paid ? "fa-check-circle" : "fa-spinner fa-spin-slow") me-1"></i>
+                            @ArabicLabels.For(run.Status)
+                        </span>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-light btn-sm px-3" asp-action="Details" asp-route-id="@run.Id" title="عرض التفاصيل">
+                                <i class="fa-solid fa-eye text-primary me-1"></i> عرض التفاصيل
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

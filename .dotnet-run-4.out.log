@@ -1,0 +1,796 @@
+Using launch settings from C:\Users\alial\source\repos\salasries7\salasries7\Properties\launchSettings.json...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (67ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (85ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      
+      IF EXISTS
+          (SELECT *
+           FROM [sys].[objects] o
+           WHERE [o].[type] = 'U'
+           AND [o].[is_ms_shipped] = 0
+           AND [o].[object_id] NOT IN (SELECT [ep].[major_id]
+              FROM [sys].[extended_properties] AS [ep]
+              WHERE [ep].[minor_id] = 0
+                  AND [ep].[class] = 1
+                  AND [ep].[name] = N'microsoft_database_tools_support'
+          )
+      )
+      SELECT 1 ELSE SELECT 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Branches] AS [b]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5251
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\alial\source\repos\salasries7\salasries7
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (79ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (37ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (71ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Branches] AS [b]
+              WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (55ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (21ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Present'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (18ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Absent'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (18ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (20ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Bonus', N'Overtime')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Deduction', N'Loan')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (34ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[BranchId], [s].[CreatedAt], [s].[Month], [s].[ProcessedAt], [s].[Status], [s].[Year], [s].[Id0], [s].[Address], [s].[City], [s].[Code], [s].[IsActive], [s].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM (
+          SELECT TOP(1) [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id] AS [Id0], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+          FROM [PayrollRuns] AS [p]
+          LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+          WHERE [p].[BranchId] = @branchId
+          ORDER BY [p].[CreatedAt] DESC
+      ) AS [s]
+      LEFT JOIN [PayrollLines] AS [p0] ON [s].[Id] = [p0].[PayrollRunId]
+      ORDER BY [s].[CreatedAt] DESC, [s].[Id], [s].[Id0]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p='?' (DbType = Int32), @branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e0].[Id], [e0].[BasicSalary], [e0].[BranchId], [e0].[Department], [e0].[EmployeeNumber], [e0].[FullName], [e0].[HireDate], [e0].[HousingAllowance], [e0].[JobTitle], [e0].[NationalId], [e0].[Notes], [e0].[OtherAllowance], [e0].[SocialSecurityDeduction], [e0].[Status], [e0].[TaxDeduction], [e0].[TransportationAllowance], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM (
+          SELECT TOP(@p) [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+          FROM [Employees] AS [e]
+          WHERE [e].[BranchId] = @branchId
+          ORDER BY [e].[Id] DESC
+      ) AS [e0]
+      INNER JOIN [Branches] AS [b] ON [e0].[BranchId] = [b].[Id]
+      ORDER BY [e0].[Id] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (19ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32), @start='?' (DbType = DateTime2), @end='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [a].[Id], [a].[CheckIn], [a].[CheckOut], [a].[EmployeeId], [a].[LateMinutes], [a].[Notes], [a].[OvertimeHours], [a].[Status], [a].[WorkDate], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id AND [a].[WorkDate] >= @start AND [a].[WorkDate] < @end
+      ORDER BY [a].[WorkDate] DESC, [e].[EmployeeNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32), @start='?' (DbType = DateTime2), @end='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[Amount], [s].[CreatedAt], [s].[EmployeeId], [s].[Month], [s].[Notes], [s].[Title], [s].[Type], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id AND [s].[Month] >= @start AND [s].[Month] < @end
+      ORDER BY [e].[EmployeeNumber], [s].[Type]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM [PayrollRuns] AS [p]
+      LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+      LEFT JOIN [PayrollLines] AS [p0] ON [p].[Id] = [p0].[PayrollRunId]
+      WHERE [p].[BranchId] = @selectedBranch_Id
+      ORDER BY [p].[Year] DESC, [p].[Month] DESC, [p].[CreatedAt] DESC, [p].[Id], [b].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (76ms) [Parameters=[@id='?' (DbType = Int32), @selectedBranch_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[BranchId], [s].[CreatedAt], [s].[Month], [s].[ProcessedAt], [s].[Status], [s].[Year], [s].[Id0], [s].[Address], [s].[City], [s].[Code], [s].[IsActive], [s].[Name], [s0].[Id], [s0].[BasicSalary], [s0].[Bonuses], [s0].[EmployeeId], [s0].[GrossSalary], [s0].[NetSalary], [s0].[Notes], [s0].[OtherDeductions], [s0].[OvertimePay], [s0].[PayrollRunId], [s0].[SocialSecurityDeduction], [s0].[TaxDeduction], [s0].[TotalAllowances], [s0].[Id0], [s0].[BasicSalary0], [s0].[BranchId], [s0].[Department], [s0].[EmployeeNumber], [s0].[FullName], [s0].[HireDate], [s0].[HousingAllowance], [s0].[JobTitle], [s0].[NationalId], [s0].[Notes0], [s0].[OtherAllowance], [s0].[SocialSecurityDeduction0], [s0].[Status], [s0].[TaxDeduction0], [s0].[TransportationAllowance]
+      FROM (
+          SELECT TOP(1) [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id] AS [Id0], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+          FROM [PayrollRuns] AS [p]
+          LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+          WHERE [p].[Id] = @id AND [p].[BranchId] = @selectedBranch_Id
+      ) AS [s]
+      LEFT JOIN (
+          SELECT [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances], [e].[Id] AS [Id0], [e].[BasicSalary] AS [BasicSalary0], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes] AS [Notes0], [e].[OtherAllowance], [e].[SocialSecurityDeduction] AS [SocialSecurityDeduction0], [e].[Status], [e].[TaxDeduction] AS [TaxDeduction0], [e].[TransportationAllowance]
+          FROM [PayrollLines] AS [p0]
+          INNER JOIN [Employees] AS [e] ON [p0].[EmployeeId] = [e].[Id]
+      ) AS [s0] ON [s].[Id] = [s0].[PayrollRunId]
+      ORDER BY [s].[Id], [s].[Id0], [s0].[EmployeeNumber], [s0].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Present'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Absent'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (28ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Bonus', N'Overtime')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (35ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Deduction', N'Loan')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[BranchId], [s].[CreatedAt], [s].[Month], [s].[ProcessedAt], [s].[Status], [s].[Year], [s].[Id0], [s].[Address], [s].[City], [s].[Code], [s].[IsActive], [s].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM (
+          SELECT TOP(1) [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id] AS [Id0], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+          FROM [PayrollRuns] AS [p]
+          LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+          WHERE [p].[BranchId] = @branchId
+          ORDER BY [p].[CreatedAt] DESC
+      ) AS [s]
+      LEFT JOIN [PayrollLines] AS [p0] ON [s].[Id] = [p0].[PayrollRunId]
+      ORDER BY [s].[CreatedAt] DESC, [s].[Id], [s].[Id0]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (17ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@p='?' (DbType = Int32), @branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e0].[Id], [e0].[BasicSalary], [e0].[BranchId], [e0].[Department], [e0].[EmployeeNumber], [e0].[FullName], [e0].[HireDate], [e0].[HousingAllowance], [e0].[JobTitle], [e0].[NationalId], [e0].[Notes], [e0].[OtherAllowance], [e0].[SocialSecurityDeduction], [e0].[Status], [e0].[TaxDeduction], [e0].[TransportationAllowance], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM (
+          SELECT TOP(@p) [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+          FROM [Employees] AS [e]
+          WHERE [e].[BranchId] = @branchId
+          ORDER BY [e].[Id] DESC
+      ) AS [e0]
+      INNER JOIN [Branches] AS [b] ON [e0].[BranchId] = [b].[Id]
+      ORDER BY [e0].[Id] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (39ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (33ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (26ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (21ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Present'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Absent'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (25ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (25ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Bonus', N'Overtime')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Deduction', N'Loan')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (29ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[BranchId], [s].[CreatedAt], [s].[Month], [s].[ProcessedAt], [s].[Status], [s].[Year], [s].[Id0], [s].[Address], [s].[City], [s].[Code], [s].[IsActive], [s].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM (
+          SELECT TOP(1) [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id] AS [Id0], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+          FROM [PayrollRuns] AS [p]
+          LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+          WHERE [p].[BranchId] = @branchId
+          ORDER BY [p].[CreatedAt] DESC
+      ) AS [s]
+      LEFT JOIN [PayrollLines] AS [p0] ON [s].[Id] = [p0].[PayrollRunId]
+      ORDER BY [s].[CreatedAt] DESC, [s].[Id], [s].[Id0]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@p='?' (DbType = Int32), @branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e0].[Id], [e0].[BasicSalary], [e0].[BranchId], [e0].[Department], [e0].[EmployeeNumber], [e0].[FullName], [e0].[HireDate], [e0].[HousingAllowance], [e0].[JobTitle], [e0].[NationalId], [e0].[Notes], [e0].[OtherAllowance], [e0].[SocialSecurityDeduction], [e0].[Status], [e0].[TaxDeduction], [e0].[TransportationAllowance], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM (
+          SELECT TOP(@p) [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+          FROM [Employees] AS [e]
+          WHERE [e].[BranchId] = @branchId
+          ORDER BY [e].[Id] DESC
+      ) AS [e0]
+      INNER JOIN [Branches] AS [b] ON [e0].[BranchId] = [b].[Id]
+      ORDER BY [e0].[Id] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (58ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (28ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Branches] AS [b]
+              WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Present'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32), @today='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [a].[WorkDate] = @today AND [a].[Status] = N'Absent'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Bonus', N'Overtime')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32), @monthStart='?' (DbType = DateTime2), @monthEnd='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([s].[Amount]), 0.0)
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @branchId AND [s].[Month] >= @monthStart AND [s].[Month] < @monthEnd AND [s].[Type] IN (N'Deduction', N'Loan')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[BranchId], [s].[CreatedAt], [s].[Month], [s].[ProcessedAt], [s].[Status], [s].[Year], [s].[Id0], [s].[Address], [s].[City], [s].[Code], [s].[IsActive], [s].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM (
+          SELECT TOP(1) [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id] AS [Id0], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+          FROM [PayrollRuns] AS [p]
+          LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+          WHERE [p].[BranchId] = @branchId
+          ORDER BY [p].[CreatedAt] DESC
+      ) AS [s]
+      LEFT JOIN [PayrollLines] AS [p0] ON [s].[Id] = [p0].[PayrollRunId]
+      ORDER BY [s].[CreatedAt] DESC, [s].[Id], [s].[Id0]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([e].[BasicSalary] + [e].[HousingAllowance] + [e].[TransportationAllowance] + [e].[OtherAllowance]), 0.0)
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32), @branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e0].[Id], [e0].[BasicSalary], [e0].[BranchId], [e0].[Department], [e0].[EmployeeNumber], [e0].[FullName], [e0].[HireDate], [e0].[HousingAllowance], [e0].[JobTitle], [e0].[NationalId], [e0].[Notes], [e0].[OtherAllowance], [e0].[SocialSecurityDeduction], [e0].[Status], [e0].[TaxDeduction], [e0].[TransportationAllowance], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM (
+          SELECT TOP(@p) [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+          FROM [Employees] AS [e]
+          WHERE [e].[BranchId] = @branchId
+          ORDER BY [e].[Id] DESC
+      ) AS [e0]
+      INNER JOIN [Branches] AS [b] ON [e0].[BranchId] = [b].[Id]
+      ORDER BY [e0].[Id] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (29ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [Branches] AS [b]
+      LEFT JOIN [Employees] AS [e] ON [b].[Id] = [e].[BranchId]
+      ORDER BY [b].[Name], [b].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Employees] AS [e]
+      INNER JOIN [Branches] AS [b] ON [e].[BranchId] = [b].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id
+      ORDER BY [e].[EmployeeNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32), @start='?' (DbType = DateTime2), @end='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [a].[Id], [a].[CheckIn], [a].[CheckOut], [a].[EmployeeId], [a].[LateMinutes], [a].[Notes], [a].[OvertimeHours], [a].[Status], [a].[WorkDate], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id AND [a].[WorkDate] >= @start AND [a].[WorkDate] < @end
+      ORDER BY [a].[WorkDate] DESC, [e].[EmployeeNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32), @start='?' (DbType = DateTime2), @end='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [a].[Id], [a].[CheckIn], [a].[CheckOut], [a].[EmployeeId], [a].[LateMinutes], [a].[Notes], [a].[OvertimeHours], [a].[Status], [a].[WorkDate], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [AttendanceRecords] AS [a]
+      INNER JOIN [Employees] AS [e] ON [a].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id AND [a].[WorkDate] >= @start AND [a].[WorkDate] < @end
+      ORDER BY [a].[WorkDate] DESC, [e].[EmployeeNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32), @start='?' (DbType = DateTime2), @end='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[Amount], [s].[CreatedAt], [s].[EmployeeId], [s].[Month], [s].[Notes], [s].[Title], [s].[Type], [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [SalaryAdjustments] AS [s]
+      INNER JOIN [Employees] AS [e] ON [s].[EmployeeId] = [e].[Id]
+      WHERE [e].[BranchId] = @selectedBranch_Id AND [s].[Month] >= @start AND [s].[Month] < @end
+      ORDER BY [e].[EmployeeNumber], [s].[Type]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[BasicSalary], [e].[BranchId], [e].[Department], [e].[EmployeeNumber], [e].[FullName], [e].[HireDate], [e].[HousingAllowance], [e].[JobTitle], [e].[NationalId], [e].[Notes], [e].[OtherAllowance], [e].[SocialSecurityDeduction], [e].[Status], [e].[TaxDeduction], [e].[TransportationAllowance]
+      FROM [Employees] AS [e]
+      WHERE [e].[BranchId] = @branchId AND [e].[Status] = N'Active'
+      ORDER BY [e].[EmployeeNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[@selectedBranch_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[BranchId], [p].[CreatedAt], [p].[Month], [p].[ProcessedAt], [p].[Status], [p].[Year], [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name], [p0].[Id], [p0].[BasicSalary], [p0].[Bonuses], [p0].[EmployeeId], [p0].[GrossSalary], [p0].[NetSalary], [p0].[Notes], [p0].[OtherDeductions], [p0].[OvertimePay], [p0].[PayrollRunId], [p0].[SocialSecurityDeduction], [p0].[TaxDeduction], [p0].[TotalAllowances]
+      FROM [PayrollRuns] AS [p]
+      LEFT JOIN [Branches] AS [b] ON [p].[BranchId] = [b].[Id]
+      LEFT JOIN [PayrollLines] AS [p0] ON [p].[Id] = [p0].[PayrollRunId]
+      WHERE [p].[BranchId] = @selectedBranch_Id
+      ORDER BY [p].[Year] DESC, [p].[Month] DESC, [p].[CreatedAt] DESC, [p].[Id], [b].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@branchId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[Id] = @branchId AND [b].[IsActive] = CAST(1 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Address], [b].[City], [b].[Code], [b].[IsActive], [b].[Name]
+      FROM [Branches] AS [b]
+      WHERE [b].[IsActive] = CAST(1 AS bit)
+      ORDER BY [b].[Name]

@@ -1,0 +1,23 @@
+@model SalaryAdjustment
+
+@{
+    ViewData["Title"] = "حذف حركة مرتب";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">تأكيد الحذف</p>
+        <h1>@Model.Title</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <p class="alert alert-warning">هل تريد حذف حركة @ArabicLabels.For(Model.Type) للموظف @Model.Employee?.FullName؟</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">حذف</button>
+            <a class="btn btn-light" asp-action="Index">إلغاء</a>
+        </div>
+    </form>
+</section>

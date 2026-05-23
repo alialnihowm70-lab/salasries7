@@ -1,0 +1,23 @@
+@model AttendanceRecord
+
+@{
+    ViewData["Title"] = "حذف سجل حضور";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">تأكيد الحذف</p>
+        <h1>@Model.Employee?.FullName</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <p class="alert alert-warning">هل تريد حذف سجل حضور يوم @Model.WorkDate.ToString("yyyy/MM/dd")؟</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">حذف</button>
+            <a class="btn btn-light" asp-action="Index">إلغاء</a>
+        </div>
+    </form>
+</section>

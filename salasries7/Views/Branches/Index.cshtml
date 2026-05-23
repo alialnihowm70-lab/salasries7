@@ -1,0 +1,82 @@
+@model IEnumerable<Branch>
+
+@{
+    ViewData["Title"] = "الفروع والمواقع";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div>
+        <p class="eyebrow"><i class="fa-solid fa-map-location-dot me-1"></i> الهيكل التنظيمي</p>
+        <h1><i class="fa-solid fa-code-branch text-primary me-2"></i> الفروع</h1>
+    </div>
+    <div class="heading-actions">
+        <a class="btn btn-primary shadow-premium" asp-action="Create">
+            <i class="fa-solid fa-plus me-1"></i> إضافة فرع جديد
+        </a>
+    </div>
+</section>
+
+<section class="panel animate__animated animate__fadeInUp">
+    <div class="panel-title mb-4">
+        <h2><i class="fa-solid fa-list-check me-2"></i> قائمة الفروع الحالية</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table app-table datatable">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-hashtag me-1"></i> الرمز</th>
+                    <th><i class="fa-solid fa-font me-1"></i> اسم الفرع</th>
+                    <th><i class="fa-solid fa-city me-1"></i> المدينة</th>
+                    <th><i class="fa-solid fa-users me-1"></i> الموظفون</th>
+                    <th><i class="fa-solid fa-circle-check me-1"></i> الحالة</th>
+                    <th class="text-center"><i class="fa-solid fa-bolt me-1"></i> الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var branch in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@branch.Code</td>
+                    <td>@branch.Name</td>
+                    <td>@branch.City</td>
+                    <td class="text-center">
+                        <span class="badge rounded-pill bg-light text-dark border">
+                            @branch.Employees.Count موظف
+                        </span>
+                    </td>
+                    <td>
+                        @if (branch.IsActive)
+                        {
+                            <span class="badge-soft success">
+                                <i class="fa-solid fa-circle-dot me-1"></i> نشط
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge-soft muted">
+                                <i class="fa-solid fa-circle me-1"></i> موقوف
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a class="btn btn-light btn-sm" asp-action="Details" asp-route-id="@branch.Id" title="تفاصيل">
+                                <i class="fa-solid fa-eye text-primary"></i>
+                            </a>
+                            <a class="btn btn-light btn-sm" asp-action="Edit" asp-route-id="@branch.Id" title="تعديل">
+                                <i class="fa-solid fa-pen-to-square text-success"></i>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@branch.Id" method="post" class="d-inline">
+                                <button type="button" class="btn btn-light btn-sm btn-delete-confirm" data-entity="فرع @branch.Name" title="حذف">
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

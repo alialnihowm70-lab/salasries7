@@ -1,0 +1,22 @@
+{
+    "executable": "salasries7",
+    "name": "salasries7",
+    "author": "",
+    "singleInstance": false,
+    "aspCoreBackendPort": 8001,
+    "electronPort": 8002,
+    "build": {
+        "appId": "com.salasries7.app",
+        "productName": "Salasries7 Enterprise",
+        "copyright": "Copyright © 2026",
+        "directories": {
+            "output": "../bin/Desktop"
+        },
+        "win": {
+            "target": [
+                "portable"
+            ],
+            "icon": "C:/Users/alial/.gemini/antigravity/brain/842fd23d-5d0f-4c7a-ad4d-6652b5f8a7e2/salasries_enterprise_logo_1779527898232.png"
+        }
+    }
+}

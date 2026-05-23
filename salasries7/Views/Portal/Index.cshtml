@@ -1,0 +1,171 @@
+@model salasries7.Models.Employee
+@using salasries7.Models
+
+@{
+    ViewData["Title"] = "بوابة الموظف";
+    var lastPay = ViewBag.LastPay as PayrollLine;
+    var activeLoans = ViewBag.ActiveLoans as List<EmployeeLoan>;
+}
+
+<div class="premium-container animate__animated animate__fadeIn">
+    <div class="row g-4">
+        <!-- Welcome Section -->
+        <div class="col-12">
+            <div class="welcome-banner p-5 rounded-5 glass-premium shadow-lg d-flex align-items-center justify-content-between overflow-hidden position-relative">
+                <div class="banner-content position-relative z-1">
+                    <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">مرحباً بك مجدداً</span>
+                    <h1 class="display-5 fw-bold mb-2">@Model.FullName</h1>
+                    <p class="text-muted fs-5 mb-0">@Model.JobTitle - @Model.Department</p>
+                </div>
+                <div class="banner-icon me-4 opacity-25 position-absolute top-50 start-100 translate-middle">
+                    <i class="fa-solid fa-user-tie" style="font-size: 15rem;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Stats -->
+        <div class="col-md-4">
+            <div class="premium-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="stat-icon bg-success-soft text-success mb-3 mx-auto">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <label class="text-muted small">آخر صافي مرتب</label>
+                    <h2 class="fw-bold mt-1">@((lastPay?.NetSalary ?? 0).ToString("N2")) <small class="text-xs">د.ل</small></h2>
+                    @if (lastPay != null)
+                    {
+                        <a asp-action="MySlips" class="btn btn-link text-decoration-none small">مشاهدة التفاصيل <i class="fa-solid fa-arrow-left ms-1"></i></a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="premium-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="stat-icon bg-warning-soft text-warning mb-3 mx-auto">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                    </div>
+                    <label class="text-muted small">طلبات إجازة معلقة</label>
+                    <h2 class="fw-bold mt-1">@ViewBag.PendingLeaves</h2>
+                    <button class="btn btn-link text-decoration-none small">تقديم طلب جديد <i class="fa-solid fa-plus-circle ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="premium-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="stat-icon bg-info-soft text-info mb-3 mx-auto">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <label class="text-muted small">السلف النشطة</label>
+                    <h2 class="fw-bold mt-1">@activeLoans?.Count</h2>
+                    <button class="btn btn-link text-decoration-none small">سجل السلف <i class="fa-solid fa-clock-rotate-left ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-md-8">
+            <div class="premium-card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0 p-4">
+                    <h5 class="m-0 fw-bold">خدمات ذاتية سريعة</h5>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a href="#" class="quick-service-btn">
+                                <i class="fa-solid fa-file-invoice-dollar me-3"></i>
+                                <span>طباعة شهادة مرتب</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#" class="quick-service-btn">
+                                <i class="fa-solid fa-id-card-clip me-3"></i>
+                                <span>تحديث البيانات الشخصية</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#" class="quick-service-btn">
+                                <i class="fa-solid fa-briefcase me-3"></i>
+                                <span>طلب إجازة سنوية</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#" class="quick-service-btn">
+                                <i class="fa-solid fa-folder-open me-3"></i>
+                                <span>ملفاتي الرقمية</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="premium-card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-header bg-primary text-white p-4 border-0">
+                    <h6 class="m-0 fw-bold">معلومات الملف الشخصي</h6>
+                </div>
+                <div class="card-body p-4">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-muted">الرقم الوظيفي:</span>
+                            <span class="fw-bold">@Model.EmployeeNumber</span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-muted">تاريخ التعيين:</span>
+                            <span class="fw-bold">@Model.HireDate.ToShortDateString()</span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-muted">البنك:</span>
+                            <span class="fw-bold">@Model.BankName</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span class="text-muted">رقم الحساب:</span>
+                            <span class="fw-bold">@Model.AccountNumber</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .welcome-banner {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .quick-service-btn {
+        display: flex;
+        align-items: center;
+        padding: 1.25rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 16px;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+    .quick-service-btn:hover {
+        background: white;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .bg-success-soft { background: rgba(16, 185, 129, 0.1); }
+    .bg-warning-soft { background: rgba(245, 158, 11, 0.1); }
+    .bg-info-soft { background: rgba(59, 130, 246, 0.1); }
+</style>

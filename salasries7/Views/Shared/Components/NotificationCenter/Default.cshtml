@@ -1,0 +1,102 @@
+@model IEnumerable<salasries7.Models.GlobalNotification>
+@using salasries7.Models
+
+<div class="dropdown me-2 animate__animated animate__fadeIn">
+    <button class="icon-button notification-trigger" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-bell"></i>
+        @if (Model.Any(n => !n.IsRead))
+        {
+            <span class="notification-badge animate__animated animate__pulse animate__infinite"></span>
+        }
+    </button>
+    <div class="dropdown-menu dropdown-menu-end notification-dropdown glass-premium p-0 border-0 shadow-lg" aria-labelledby="notifDropdown">
+        <div class="notif-header p-3 border-bottom d-flex justify-content-between align-items-center">
+            <h6 class="m-0 fw-bold">مركز التنبيهات الذكي</h6>
+            <a href="#" class="text-xs text-primary">تحديد الكل كمقروء</a>
+        </div>
+        <div class="notif-body">
+            @if (!Model.Any())
+            {
+                <div class="p-4 text-center text-muted">
+                    <i class="fa-solid fa-bell-slash d-block fs-2 mb-2 opacity-25"></i>
+                    <small>لا توجد تنبيهات حالياً</small>
+                </div>
+            }
+            else
+            {
+                foreach (var n in Model)
+                {
+                    <a href="@(n.ActionUrl ?? "#")" class="notif-item p-3 d-flex align-items-start border-bottom @(n.IsRead ? "read" : "unread")">
+                        <div class="notif-icon me-3 @n.Severity.ToString().ToLower()">
+                            @switch (n.Severity)
+                            {
+                                case NotificationSeverity.Danger: <i class="fa-solid fa-circle-exclamation"></i> break;
+                                case NotificationSeverity.Warning: <i class="fa-solid fa-triangle-exclamation"></i> break;
+                                case NotificationSeverity.Success: <i class="fa-solid fa-circle-check"></i> break;
+                                default: <i class="fa-solid fa-circle-info"></i> break;
+                            }
+                        </div>
+                        <div class="notif-content">
+                            <div class="notif-title fw-bold small">@n.Title</div>
+                            <div class="notif-msg text-muted">@n.Message</div>
+                            <div class="notif-time text-xs mt-1">@n.CreatedAt.ToString("g")</div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+        <div class="notif-footer p-2 text-center bg-light-soft rounded-bottom-4">
+            <a href="#" class="small text-muted">مشاهدة كافة التنبيهات</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .notification-trigger { position: relative; }
+    .notification-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 10px;
+        height: 10px;
+        background: #ef4444;
+        border: 2px solid white;
+        border-radius: 50%;
+    }
+    .notification-dropdown {
+        width: 350px;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    .notif-item {
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.2s ease;
+    }
+    .notif-item:hover { background: rgba(0,0,0,0.02); }
+    .notif-item.unread { background: rgba(99, 102, 241, 0.03); }
+    
+    .notif-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .notif-icon.info { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+    .notif-icon.warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+    .notif-icon.danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .notif-icon.success { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+    .notif-title { color: var(--text-color); }
+    .notif-msg { font-size: 0.8rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .text-xs { font-size: 0.7rem; color: #94a3b8; }
+    
+    .bg-light-soft { background: rgba(0,0,0,0.02); }
+    
+    [data-bs-theme="dark"] .notification-badge { border-color: #1e1e2d; }
+    [data-bs-theme="dark"] .notif-item:hover { background: rgba(255,255,255,0.05); }
+    [data-bs-theme="dark"] .notif-item.unread { background: rgba(99, 102, 241, 0.1); }
+</style>

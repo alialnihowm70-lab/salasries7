@@ -1,0 +1,253 @@
+@using System.Text.Json
+@using salasries7.Services
+@model dynamic
+
+@{
+    ViewData["Title"] = "لوحة التقارير والتحليلات";
+    var monthlyLabels = JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.MonthlyTrends).Select(t => t.Month));
+    var monthlyData = JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.MonthlyTrends).Select(t => t.Total));
+    
+    var branchLabels = JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.BranchStats).Select(s => s.Name));
+    var branchCounts = JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.BranchStats).Select(s => s.Count));
+    var branchPayroll = JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.BranchStats).Select(s => s.TotalPayroll));
+
+    var componentData = JsonSerializer.Serialize(new[] { 
+        ViewBag.Components.Basic, 
+        ViewBag.Components.Allowances, 
+        ViewBag.Components.Deductions 
+    });
+}
+
+<div class="premium-container animate__animated animate__fadeIn">
+    <div class="page-header-block mb-4">
+        <div class="header-content">
+            <h1 class="premium-title">المركز التحليلي المتقدم</h1>
+            <p class="text-muted">نظرة شاملة على الأداء المالي والتشغيلي للمنظمة</p>
+        </div>
+        <div class="header-actions">
+            <a asp-action="Financial" class="premium-btn primary me-2">
+                <i class="fa-solid fa-file-invoice-dollar me-2"></i> تحليل مالي مفصل
+            </a>
+            <a asp-action="Operational" class="premium-btn info me-2">
+                <i class="fa-solid fa-chart-bar me-2"></i> تقرير العمليات
+            </a>
+            <button onclick="window.print()" class="premium-btn secondary">
+                <i class="fa-solid fa-print me-2"></i> طباعة الملخص
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card glass-premium">
+                <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-details">
+                    <span class="stat-label">إجمالي الموظفين النشطين</span>
+                    <h2 class="stat-value">@ViewBag.TotalEmployees</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card glass-premium">
+                <div class="stat-icon green"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div class="stat-details">
+                    <span class="stat-label">إجمالي الالتزام الشهري</span>
+                    <h2 class="stat-value">@ViewBag.TotalMonthlyPayroll.ToString("N3") <small>د.ل</small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card glass-premium">
+                <div class="stat-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="stat-details">
+                    <span class="stat-label">متوسط دخل الموظف</span>
+                    <h2 class="stat-value">@ViewBag.AverageSalary.ToString("N3") <small>د.ل</small></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+            <div class="premium-card">
+                <div class="card-header-premium">
+                    <h5 class="m-0"><i class="fa-solid fa-timeline me-2"></i> اتجاه مصروفات المرتبات (6 أشهر)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="payrollTrendChart" style="max-height: 350px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="premium-card">
+                <div class="card-header-premium">
+                    <h5 class="m-0"><i class="fa-solid fa-pie-chart me-2"></i> هيكلية المصاريف</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="salaryComponentsChart" style="max-height: 350px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="premium-card">
+                <div class="card-header-premium">
+                    <h5 class="m-0"><i class="fa-solid fa-building-user me-2"></i> الموظفين حسب الفرع</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="branchCountChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="premium-card">
+                <div class="card-header-premium">
+                    <h5 class="m-0"><i class="fa-solid fa-vault me-2"></i> سيولة الرواتب حسب الفرع</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="branchPayrollChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const isDark = document.body.classList.contains('dark-mode');
+        const textColor = isDark ? '#e2e8f0' : '#475569';
+        const borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+        Chart.defaults.color = textColor;
+        Chart.defaults.font.family = 'Rubik, sans-serif';
+
+        // 1. Payroll Trend
+        new Chart(document.getElementById('payrollTrendChart'), {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(monthlyLabels),
+                datasets: [{
+                    label: 'إجمالي الرواتب',
+                    data: @Html.Raw(monthlyData),
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#6366f1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: borderColor }, ticks: { callback: val => val.toLocaleString() + ' د.ل' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 2. Salary Components
+        new Chart(document.getElementById('salaryComponentsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['الأساسي', 'البدلات', 'الاستقطاعات'],
+                datasets: [{
+                    data: @Html.Raw(componentData),
+                    backgroundColor: ['#6366f1', '#10b981', '#ef4444'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 3. Branch Employee Count
+        new Chart(document.getElementById('branchCountChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(branchLabels),
+                datasets: [{
+                    label: 'عدد الموظفين',
+                    data: @Html.Raw(branchCounts),
+                    backgroundColor: '#8b5cf6',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: borderColor } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 4. Branch Payroll
+        new Chart(document.getElementById('branchPayrollChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(branchLabels),
+                datasets: [{
+                    label: 'إجمالي المرتبات',
+                    data: @Html.Raw(branchPayroll),
+                    backgroundColor: '#10b981',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { grid: { color: borderColor } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+}
+
+<style>
+    .stat-card {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        transition: transform 0.3s ease;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+    .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+    .stat-label { font-size: 0.875rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem; }
+    .stat-value { font-weight: 800; margin: 0; font-size: 1.75rem; letter-spacing: -0.5px; }
+
+    .card-header-premium {
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+        background: rgba(255,255,255,0.02);
+    }
+</style>

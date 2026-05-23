@@ -1,0 +1,136 @@
+@model PayrollRun
+
+@{
+    ViewData["Title"] = "تفاصيل مرتب الفرع";
+    var totalDeductions = Model.Lines.Sum(line => line.SocialSecurityDeduction + line.TaxDeduction + line.OtherDeductions);
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@ArabicLabels.For(Model.Status)</p>
+        <h1>مرتب @Model.Branch?.Name - @Model.Month / @Model.Year</h1>
+    </div>
+    <div class="heading-actions animate__animated animate__fadeInRight">
+        <a class="btn btn-light rounded-pill px-4 border" asp-action="Index">
+            <i class="fa-solid fa-arrow-left me-2"></i> رجوع
+        </a>
+        
+        @if (Model.Status == PayrollRunStatus.Draft)
+        {
+            <form asp-action="Recalculate" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button class="btn btn-outline-primary rounded-pill px-4 ms-2" type="submit">
+                    <i class="fa-solid fa-rotate me-2"></i> إعادة حساب
+                </button>
+            </form>
+            <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button class="btn btn-primary rounded-pill px-4 ms-2 shadow-premium" type="submit">
+                    <i class="fa-solid fa-check-double me-2"></i> اعتماد التشغيل
+                </button>
+            </form>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('هل تريد حذف تشغيل المرتب؟');" class="d-inline">
+                <button class="btn btn-outline-danger rounded-pill px-3 ms-2" type="submit">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </form>
+        }
+        else if (Model.Status == PayrollRunStatus.Approved)
+        {
+            <a class="btn btn-success rounded-pill px-4 ms-2 shadow-sm" asp-action="ExportToBank" asp-route-id="@Model.Id">
+                <i class="fa-solid fa-file-excel me-2"></i> تصدير للمصرف
+            </a>
+            <form asp-action="MarkPaid" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button class="btn btn-primary rounded-pill px-4 ms-2 shadow-premium" type="submit">
+                    <i class="fa-solid fa-hand-holding-dollar me-2"></i> تعليم كمدفوع
+                </button>
+            </form>
+        }
+        else if (Model.Status == PayrollRunStatus.Paid)
+        {
+            <a class="btn btn-success rounded-pill px-4 ms-2 shadow-sm" asp-action="ExportToBank" asp-route-id="@Model.Id">
+                <i class="fa-solid fa-file-excel me-2"></i> تصدير للمصرف
+            </a>
+        }
+        
+        <button class="btn btn-dark rounded-pill px-4 ms-2" type="button" onclick="window.print()">
+            <i class="fa-solid fa-print me-2"></i> طباعة القسائم
+        </button>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card accent-blue">
+        <span>الفرع</span>
+        <strong>@Model.Branch?.Name</strong>
+    </article>
+    <article class="stat-card accent-green">
+        <span>الموظفون</span>
+        <strong>@Model.Lines.Count</strong>
+    </article>
+    <article class="stat-card accent-amber">
+        <span>إجمالي الخصومات</span>
+        <strong>@totalDeductions.ToString("N3")</strong>
+    </article>
+    <article class="stat-card accent-rose">
+        <span>صافي المرتبات</span>
+        <strong>@Model.Lines.Sum(line => line.NetSalary).ToString("N3")</strong>
+    </article>
+</section>
+
+<section class="panel">
+    <div class="table-responsive">
+        <table class="table app-table payroll-table datatable">
+            <thead>
+                <tr>
+                    <th>الموظف</th>
+                    <th>الأساسي</th>
+                    <th>البدلات</th>
+                    <th>إضافي</th>
+                    <th class="d-print-none">مكافآت</th>
+                    <th class="d-print-none">الإجمالي</th>
+                    <th class="d-print-none">ضمان</th>
+                    <th class="d-print-none">ضريبة</th>
+                    <th class="d-print-none">أخرى</th>
+                    <th>الصافي</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var line in Model.Lines)
+            {
+                <tr>
+                    <td>
+                        <strong>@line.Employee?.FullName</strong>
+                        <div class="small text-muted">@line.Employee?.EmployeeNumber</div>
+                        
+                        <!-- Print-Only Pay Slip -->
+                        <div class="print-only pay-slip-container mt-4 p-4 border border-dark rounded">
+                            <div class="text-center mb-4">
+                                <h3 class="fw-bold">قسيمة مرتب شهر @Model.Month / @Model.Year</h3>
+                                <p class="mb-0">فرع: @Model.Branch?.Name | الموظف: @line.Employee?.FullName</p>
+                                <hr />
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-6"><strong>المرتب الأساسي:</strong> @line.BasicSalary.ToString("N3")</div>
+                                <div class="col-6"><strong>البدلات:</strong> @line.TotalAllowances.ToString("N3")</div>
+                                <div class="col-6"><strong>الإضافي:</strong> @line.OvertimePay.ToString("N3")</div>
+                                <div class="col-6 text-danger"><strong>إجمالي الخصومات:</strong> @((line.SocialSecurityDeduction + line.TaxDeduction + line.OtherDeductions).ToString("N3"))</div>
+                                <div class="col-12 mt-3 pt-3 border-top">
+                                    <h4 class="fw-bold">صافي المرتب: @line.NetSalary.ToString("N3") د.ل</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>@line.BasicSalary.ToString("N3")</td>
+                    <td>@line.TotalAllowances.ToString("N3")</td>
+                    <td>@line.OvertimePay.ToString("N3")</td>
+                    <td class="d-print-none">@line.Bonuses.ToString("N3")</td>
+                    <td class="d-print-none">@line.GrossSalary.ToString("N3")</td>
+                    <td class="d-print-none">@line.SocialSecurityDeduction.ToString("N3")</td>
+                    <td class="d-print-none">@line.TaxDeduction.ToString("N3")</td>
+                    <td class="d-print-none">@line.OtherDeductions.ToString("N3")</td>
+                    <td><strong>@line.NetSalary.ToString("N3")</strong></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

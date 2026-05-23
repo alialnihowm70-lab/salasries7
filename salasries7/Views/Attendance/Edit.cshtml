@@ -1,0 +1,22 @@
+@model AttendanceFormViewModel
+
+@{
+    ViewData["Title"] = "تعديل حضور";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@Model.Record.WorkDate.ToString("yyyy/MM/dd")</p>
+        <h1>تعديل سجل حضور</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <form asp-action="Edit" method="post">
+        <partial name="_Form" model="Model" />
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,24 @@
+@model Employee
+
+@{
+    ViewData["Title"] = "حذف موظف";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">تأكيد الحذف</p>
+        <h1>@Model.FullName</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <p class="alert alert-warning">حذف الموظف سيزيل ملفه من المنظومة. يفضل إيقافه من صفحة التعديل عند وجود بيانات مالية سابقة.</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">حذف</button>
+            <a class="btn btn-light" asp-action="Index">إلغاء</a>
+        </div>
+    </form>
+</section>

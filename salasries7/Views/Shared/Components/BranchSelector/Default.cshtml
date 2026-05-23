@@ -1,0 +1,16 @@
+@model BranchSelectorViewModel
+
+<form class="branch-switcher" asp-controller="BranchContext" asp-action="Set" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+    <label for="globalBranchId">الفرع الحالي</label>
+    <select id="globalBranchId" name="branchId" onchange="this.form.submit()">
+        <option value="">اختر الفرع</option>
+        @foreach (var branch in Model.Branches)
+        {
+            <option value="@branch.Id" selected="@(branch.Id == Model.SelectedBranchId)">
+                @branch.Name
+            </option>
+        }
+    </select>
+</form>

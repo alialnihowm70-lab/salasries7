@@ -1,0 +1,71 @@
+@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "إدارة الموظفين";
+}
+
+<section class="page-heading animate__animated animate__fadeIn">
+    <div>
+        <p class="eyebrow"><i class="fa-solid fa-users-gear me-1"></i> الموارد البشرية</p>
+        <h1><i class="fa-solid fa-user-tie text-primary me-2"></i> الموظفون</h1>
+    </div>
+    <div class="heading-actions">
+        <a class="btn btn-primary shadow-premium" asp-action="Create">
+            <i class="fa-solid fa-user-plus me-1"></i> إضافة موظف جديد
+        </a>
+    </div>
+</section>
+
+<section class="panel animate__animated animate__fadeInUp">
+    <div class="panel-title mb-4">
+        <h2><i class="fa-solid fa-table-list me-2"></i> سجل بيانات الموظفين</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table app-table datatable">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-id-card me-1"></i> الرقم الوظيفي</th>
+                    <th><i class="fa-solid fa-signature me-1"></i> الاسم الكامل</th>
+                    <th><i class="fa-solid fa-code-branch me-1"></i> الفرع</th>
+                    <th><i class="fa-solid fa-briefcase me-1"></i> الوظيفة</th>
+                    <th><i class="fa-solid fa-money-bill-wave me-1"></i> الراتب الإجمالي</th>
+                    <th><i class="fa-solid fa-circle-check me-1"></i> الحالة</th>
+                    <th class="text-center"><i class="fa-solid fa-bolt me-1"></i> الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@employee.EmployeeNumber</td>
+                    <td>@employee.FullName</td>
+                    <td><span class="text-muted"><i class="fa-solid fa-location-dot me-1 small"></i> @employee.Branch?.Name</span></td>
+                    <td>@employee.JobTitle</td>
+                    <td class="fw-bold text-primary">@employee.MonthlyGrossSalary.ToString("N3")</td>
+                    <td>
+                        <span class="badge-soft success">
+                            <i class="fa-solid fa-check-double me-1"></i> @ArabicLabels.For(employee.Status)
+                        </span>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a class="btn btn-light btn-sm" asp-action="Details" asp-route-id="@employee.Id" title="تفاصيل">
+                                <i class="fa-solid fa-eye text-primary"></i>
+                            </a>
+                            <a class="btn btn-light btn-sm" asp-action="Edit" asp-route-id="@employee.Id" title="تعديل">
+                                <i class="fa-solid fa-pen-to-square text-success"></i>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@employee.Id" method="post" class="d-inline">
+                                <button type="button" class="btn btn-light btn-sm btn-delete-confirm" data-entity="الموظف @employee.FullName" title="حذف">
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

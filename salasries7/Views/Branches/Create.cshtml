@@ -1,0 +1,22 @@
+@model Branch
+
+@{
+    ViewData["Title"] = "إضافة فرع";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">إدارة المواقع</p>
+        <h1>إضافة فرع</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <form asp-action="Create" method="post">
+        <partial name="_Form" model="Model" />
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

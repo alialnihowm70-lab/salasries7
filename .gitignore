@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+[Log]/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Electron
+node_modules/
+dist/
+/salasries7/bin/
+/salasries7/obj/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Project specifics
+*.db
+salasries7_dev.db
+appsettings.Development.json

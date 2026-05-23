@@ -1,0 +1,160 @@
+@model EmployeeFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3 shadow-sm p-3 bg-light rounded"></div>
+<input type="hidden" asp-for="Employee.Id" />
+<input type="hidden" asp-for="Employee.BranchId" />
+
+@if (Model.IsBranchLocked)
+{
+    <div class="context-note animate__animated animate__fadeIn">
+        <span>الفرع</span>
+        <strong>@Model.SelectedBranchName</strong>
+        <small>هذا الموظف سيبقى تحت الفرع المختار حاليًا.</small>
+    </div>
+}
+
+<div class="row g-4 mt-1">
+    <!-- Basic Info Section -->
+    <div class="col-12 p-3 bg-light rounded-3 mb-2 animate__animated animate__fadeInLeft">
+        <div class="form-section-title text-primary"><i class="fa-solid fa-id-card me-2"></i> البيانات الشخصية والوظيفية</div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="Employee.EmployeeNumber" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.EmployeeNumber" class="form-control shadow-sm" placeholder="مثال: EMP-001" />
+                <span asp-validation-for="Employee.EmployeeNumber" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.FullName" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.FullName" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.FullName" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.NationalId" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.NationalId" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.NationalId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.NationalIdExpiry" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.NationalIdExpiry" type="date" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.NationalIdExpiry" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.PassportNumber" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.PassportNumber" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.PassportNumber" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.PassportExpiry" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.PassportExpiry" type="date" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.PassportExpiry" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.JobTitle" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.JobTitle" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.JobTitle" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.Department" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.Department" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.Department" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.HireDate" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.HireDate" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.HireDate" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.Status" class="form-label small fw-bold"></label>
+                <select asp-for="Employee.Status" class="form-select shadow-sm" asp-items="Html.GetEnumSelectList<EmploymentStatus>()"></select>
+                <span asp-validation-for="Employee.Status" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Comms Section -->
+    <div class="col-12 p-3 border rounded-3 mb-2 animate__animated animate__fadeInRight">
+        <div class="form-section-title text-success"><i class="fa-solid fa-phone-volume me-2"></i> معلومات التواصل</div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="Employee.PhoneNumber" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.PhoneNumber" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.PhoneNumber" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.PersonalEmail" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.PersonalEmail" type="email" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.PersonalEmail" class="text-danger small"></span>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label asp-for="Employee.FullAddress" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.FullAddress" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.FullAddress" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial & Bank Section -->
+    <div class="col-12 p-3 bg-primary-light rounded-3 mb-2 animate__animated animate__fadeInLeft">
+        <div class="form-section-title text-primary"><i class="fa-solid fa-money-check-dollar me-2"></i> البدلات والبيانات البنكية</div>
+        <div class="form-grid">
+            <div class="mb-3 text-primary-dark">
+                <label asp-for="Employee.BasicSalary" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.BasicSalary" class="form-control shadow-sm border-primary" />
+                <span asp-validation-for="Employee.BasicSalary" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.HousingAllowance" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.HousingAllowance" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.HousingAllowance" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.TransportationAllowance" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.TransportationAllowance" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.TransportationAllowance" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.OtherAllowance" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.OtherAllowance" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.OtherAllowance" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+               <label asp-for="Employee.BankName" class="form-label small fw-bold"></label>
+               <input asp-for="Employee.BankName" class="form-control shadow-sm" />
+               <span asp-validation-for="Employee.BankName" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+               <label asp-for="Employee.AccountNumber" class="form-label small fw-bold"></label>
+               <input asp-for="Employee.AccountNumber" class="form-control shadow-sm" />
+               <span asp-validation-for="Employee.AccountNumber" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.SocialSecurityDeduction" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.SocialSecurityDeduction" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.SocialSecurityDeduction" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Employee.TaxDeduction" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.TaxDeduction" class="form-control shadow-sm" />
+                <span asp-validation-for="Employee.TaxDeduction" class="text-danger small"></span>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label asp-for="Employee.IBAN" class="form-label small fw-bold"></label>
+                <input asp-for="Employee.IBAN" class="form-control shadow-sm fw-bold text-center" placeholder="LY..." />
+                <span asp-validation-for="Employee.IBAN" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4 mt-3 p-3 border rounded-3 animate__animated animate__fadeInUp">
+    <label asp-for="Employee.Notes" class="form-label small fw-bold">ملاحظات إضافية</label>
+    <textarea asp-for="Employee.Notes" class="form-control shadow-sm" rows="3" placeholder="أدخل أي ملاحظات إدارية هنا..."></textarea>
+    <span asp-validation-for="Employee.Notes" class="text-danger small"></span>
+</div>
+
+<div class="form-actions mt-4 pb-5">
+    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-premium rounded-pill">
+        <i class="fa-solid fa-floppy-disk me-2"></i> حفظ بيانات الموظف
+    </button>
+    <a class="btn btn-light btn-lg px-4 rounded-pill ms-3 border" asp-action="Index">إلغاء</a>
+</div>

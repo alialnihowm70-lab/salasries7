@@ -1,0 +1,59 @@
+@model PayrollCreateViewModel
+
+@{
+    ViewData["Title"] = "تشغيل مرتب";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">حساب شهري</p>
+        <h1>تشغيل مرتب الفرع</h1>
+    </div>
+</section>
+
+<section class="panel form-panel">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <input type="hidden" asp-for="BranchId" />
+
+        <div class="context-note">
+            <span>الفرع</span>
+            <strong>@Model.BranchName</strong>
+            <small>سيتم حساب المرتبات لموظفي هذا الفرع فقط.</small>
+        </div>
+
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="Year" class="form-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Month" class="form-label"></label>
+                <select asp-for="Month" class="form-select">
+                    <option value="1">يناير</option>
+                    <option value="2">فبراير</option>
+                    <option value="3">مارس</option>
+                    <option value="4">أبريل</option>
+                    <option value="5">مايو</option>
+                    <option value="6">يونيو</option>
+                    <option value="7">يوليو</option>
+                    <option value="8">أغسطس</option>
+                    <option value="9">سبتمبر</option>
+                    <option value="10">أكتوبر</option>
+                    <option value="11">نوفمبر</option>
+                    <option value="12">ديسمبر</option>
+                </select>
+                <span asp-validation-for="Month" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">تشغيل المرتب</button>
+            <a class="btn btn-light" asp-action="Index">رجوع</a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
