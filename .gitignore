@@ -8,7 +8,8 @@ obj/
 
 # Electron
 node_modules/
-dist/
+/dist/
+/salasries7/dist/
 /salasries7/bin/
 /salasries7/obj/
 
