@@ -120,40 +120,47 @@ using (var scope = app.Services.CreateScope())
     else
     {
         fixSql = @"
+            CREATE TABLE IF NOT EXISTS ""Branches"" (""Id"" SERIAL PRIMARY KEY, ""Name"" TEXT NOT NULL, ""Location"" TEXT, ""Code"" TEXT);
+            CREATE TABLE IF NOT EXISTS ""Employees"" (""Id"" SERIAL PRIMARY KEY, ""FullName"" TEXT NOT NULL, ""BranchId"" INTEGER REFERENCES ""Branches""(""Id""), ""BaseSalary"" DECIMAL NOT NULL, ""HiringDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsActive"" BOOLEAN NOT NULL DEFAULT TRUE);
+            CREATE TABLE IF NOT EXISTS ""PayrollRecords"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Month"" INTEGER NOT NULL, ""Year"" INTEGER NOT NULL, ""NetSalary"" DECIMAL NOT NULL, ""IsPaid"" BOOLEAN NOT NULL DEFAULT FALSE, ""ProcessedAt"" TIMESTAMP WITH TIME ZONE);
+            CREATE TABLE IF NOT EXISTS ""SalaryAdjustments"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Amount"" DECIMAL NOT NULL, ""Type"" INTEGER NOT NULL, ""Reason"" TEXT, ""Date"" TIMESTAMP WITH TIME ZONE NOT NULL);
+            CREATE TABLE IF NOT EXISTS ""LeaveRequests"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""StartDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""EndDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""Type"" INTEGER NOT NULL, ""Status"" INTEGER NOT NULL, ""Reason"" TEXT);
+            CREATE TABLE IF NOT EXISTS ""DocumentArchives"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Title"" TEXT NOT NULL, ""FilePath"" TEXT NOT NULL, ""ExpiryDate"" TIMESTAMP WITH TIME ZONE, ""Category"" TEXT);
             CREATE TABLE IF NOT EXISTS ""SystemSettings"" (""Key"" TEXT PRIMARY KEY, ""Value"" TEXT NOT NULL, ""Description"" TEXT, ""Category"" TEXT);
             CREATE TABLE IF NOT EXISTS ""GlobalNotifications"" (""Id"" SERIAL PRIMARY KEY, ""Title"" TEXT NOT NULL, ""Message"" TEXT NOT NULL, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsRead"" BOOLEAN NOT NULL, ""Severity"" INTEGER NOT NULL, ""ActionUrl"" TEXT);
             CREATE TABLE IF NOT EXISTS ""Users"" (""Id"" SERIAL PRIMARY KEY, ""Username"" TEXT NOT NULL, ""PasswordHash"" TEXT NOT NULL, ""Role"" INTEGER NOT NULL, ""EmployeeId"" INTEGER, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsActive"" BOOLEAN NOT NULL);
+            
             DO $$ 
             BEGIN 
                 IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='SystemSettings' AND column_name='Category') THEN
                     ALTER TABLE ""SystemSettings"" ADD COLUMN ""Category"" TEXT NULL;
                 END IF;
                 IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='Employees' AND column_name='Notes') THEN
-                    ALTER TABLE ""Employees"" ADD COLUMN ""PassportNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""PassportExpiry"" TIMESTAMP WITH TIME ZONE NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""PhoneNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""PersonalEmail"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""NationalId"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""NationalIdExpiry"" TIMESTAMP WITH TIME ZONE NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""JobTitle"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""Department"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""FullAddress"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""BankName"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""AccountNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""IBAN"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN ""Notes"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PassportNumber"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PassportExpiry"" TIMESTAMP WITH TIME ZONE NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PhoneNumber"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PersonalEmail"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""NationalId"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""NationalIdExpiry"" TIMESTAMP WITH TIME ZONE NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""JobTitle"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""Department"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""FullAddress"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""BankName"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""AccountNumber"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""IBAN"" TEXT NULL;
+                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""Notes"" TEXT NULL;
                 END IF;
-                IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='Employees' AND column_name='SyncId') THEN
-                    DECLARE t TEXT;
-                    BEGIN
-                        FOR t IN (SELECT table_name FROM information_schema.tables WHERE table_schema='public') 
-                        LOOP
-                            EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""SyncId"" UUID DEFAULT gen_random_uuid() NOT NULL', t);
-                            EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""UpdatedAt"" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL', t);
-                            EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""IsSynced"" BOOLEAN DEFAULT FALSE NOT NULL', t);
-                        END LOOP;
-                    END;
-                END IF;
+                
+                -- Global Sync Columns
+                DECLARE
+                    t text;
+                BEGIN
+                    FOR t IN (SELECT table_name FROM information_schema.tables WHERE table_schema = 'public') LOOP
+                        EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""SyncId"" UUID DEFAULT gen_random_uuid() NOT NULL', t);
+                        EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""UpdatedAt"" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL', t);
+                        EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS ""IsSynced"" BOOLEAN DEFAULT FALSE NOT NULL', t);
+                    END LOOP;
+                END;
             END $$;";
     }
 
