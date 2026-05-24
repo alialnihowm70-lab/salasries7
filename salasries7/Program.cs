@@ -5,6 +5,9 @@ using salasries7.Services;
 using System.Globalization;
 using ElectronNET.API;
 
+// Fix: Allow DateTime with Kind=Unspecified to be written to PostgreSQL timestamp columns
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
