@@ -125,6 +125,9 @@ using (var scope = app.Services.CreateScope())
             CREATE TABLE IF NOT EXISTS ""Users"" (""Id"" SERIAL PRIMARY KEY, ""Username"" TEXT NOT NULL, ""PasswordHash"" TEXT NOT NULL, ""Role"" INTEGER NOT NULL, ""EmployeeId"" INTEGER, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsActive"" BOOLEAN NOT NULL);
             DO $$ 
             BEGIN 
+                IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='SystemSettings' AND column_name='Category') THEN
+                    ALTER TABLE ""SystemSettings"" ADD COLUMN ""Category"" TEXT NULL;
+                END IF;
                 IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='Employees' AND column_name='Notes') THEN
                     ALTER TABLE ""Employees"" ADD COLUMN ""PassportNumber"" TEXT NULL;
                     ALTER TABLE ""Employees"" ADD COLUMN ""PassportExpiry"" TIMESTAMP WITH TIME ZONE NULL;
