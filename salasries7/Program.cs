@@ -85,17 +85,22 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    
+    // 1. Initial Structural Creation (Ideal for fresh Neon/PostgreSQL DBs)
+    // This creates all tables from Models if they don't exist.
+    await db.Database.EnsureCreatedAsync();
 
-    // Hybrid Schema Initialization (SQLite for local, PostgreSQL for cloud)
+    // 2. Hybrid Schema Self-Healing (Patches for existing local databases)
     string fixSql;
     if (db.Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
     {
         fixSql = @"
+            -- Patches for older SQLite versions
             CREATE TABLE IF NOT EXISTS ""SystemSettings"" (""Key"" TEXT PRIMARY KEY, ""Value"" TEXT NOT NULL, ""Description"" TEXT, ""Category"" TEXT);
             CREATE TABLE IF NOT EXISTS ""GlobalNotifications"" (""Id"" INTEGER PRIMARY KEY AUTOINCREMENT, ""Title"" TEXT NOT NULL, ""Message"" TEXT NOT NULL, ""CreatedAt"" TEXT NOT NULL, ""IsRead"" INTEGER NOT NULL, ""Severity"" INTEGER NOT NULL, ""ActionUrl"" TEXT);
             CREATE TABLE IF NOT EXISTS ""Users"" (""Id"" INTEGER PRIMARY KEY AUTOINCREMENT, ""Username"" TEXT NOT NULL, ""PasswordHash"" TEXT NOT NULL, ""Role"" INTEGER NOT NULL, ""EmployeeId"" INTEGER, ""CreatedAt"" TEXT NOT NULL, ""IsActive"" INTEGER NOT NULL);
             
-            -- Employee Columns
+            -- Incremental Employee Column Patches
             ALTER TABLE ""Employees"" ADD COLUMN ""PassportNumber"" TEXT;
             ALTER TABLE ""Employees"" ADD COLUMN ""PassportExpiry"" TEXT;
             ALTER TABLE ""Employees"" ADD COLUMN ""PhoneNumber"" TEXT;
@@ -110,48 +115,26 @@ using (var scope = app.Services.CreateScope())
             ALTER TABLE ""Employees"" ADD COLUMN ""IBAN"" TEXT;
             ALTER TABLE ""Employees"" ADD COLUMN ""Notes"" TEXT;
 
-            -- Sync Columns
+            -- Sync Infrastructure
             ALTER TABLE ""Employees"" ADD COLUMN ""SyncId"" TEXT;
             ALTER TABLE ""Employees"" ADD COLUMN ""UpdatedAt"" TEXT;
             ALTER TABLE ""Employees"" ADD COLUMN ""IsSynced"" INTEGER DEFAULT 0;
-            -- (Note: SQLite handles 'ADD COLUMN' gracefully if they exist in some versions, but usually we just wrap in try-catch or check)
         ";
     }
     else
     {
         fixSql = @"
-            CREATE TABLE IF NOT EXISTS ""Branches"" (""Id"" SERIAL PRIMARY KEY, ""Name"" TEXT NOT NULL, ""Location"" TEXT, ""Code"" TEXT);
-            CREATE TABLE IF NOT EXISTS ""Employees"" (""Id"" SERIAL PRIMARY KEY, ""FullName"" TEXT NOT NULL, ""BranchId"" INTEGER REFERENCES ""Branches""(""Id""), ""BaseSalary"" DECIMAL NOT NULL, ""HiringDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsActive"" BOOLEAN NOT NULL DEFAULT TRUE);
-            CREATE TABLE IF NOT EXISTS ""PayrollRecords"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Month"" INTEGER NOT NULL, ""Year"" INTEGER NOT NULL, ""NetSalary"" DECIMAL NOT NULL, ""IsPaid"" BOOLEAN NOT NULL DEFAULT FALSE, ""ProcessedAt"" TIMESTAMP WITH TIME ZONE);
-            CREATE TABLE IF NOT EXISTS ""SalaryAdjustments"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Amount"" DECIMAL NOT NULL, ""Type"" INTEGER NOT NULL, ""Reason"" TEXT, ""Date"" TIMESTAMP WITH TIME ZONE NOT NULL);
-            CREATE TABLE IF NOT EXISTS ""LeaveRequests"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""StartDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""EndDate"" TIMESTAMP WITH TIME ZONE NOT NULL, ""Type"" INTEGER NOT NULL, ""Status"" INTEGER NOT NULL, ""Reason"" TEXT);
-            CREATE TABLE IF NOT EXISTS ""DocumentArchives"" (""Id"" SERIAL PRIMARY KEY, ""EmployeeId"" INTEGER REFERENCES ""Employees""(""Id""), ""Title"" TEXT NOT NULL, ""FilePath"" TEXT NOT NULL, ""ExpiryDate"" TIMESTAMP WITH TIME ZONE, ""Category"" TEXT);
-            CREATE TABLE IF NOT EXISTS ""SystemSettings"" (""Key"" TEXT PRIMARY KEY, ""Value"" TEXT NOT NULL, ""Description"" TEXT, ""Category"" TEXT);
-            CREATE TABLE IF NOT EXISTS ""GlobalNotifications"" (""Id"" SERIAL PRIMARY KEY, ""Title"" TEXT NOT NULL, ""Message"" TEXT NOT NULL, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsRead"" BOOLEAN NOT NULL, ""Severity"" INTEGER NOT NULL, ""ActionUrl"" TEXT);
-            CREATE TABLE IF NOT EXISTS ""Users"" (""Id"" SERIAL PRIMARY KEY, ""Username"" TEXT NOT NULL, ""PasswordHash"" TEXT NOT NULL, ""Role"" INTEGER NOT NULL, ""EmployeeId"" INTEGER, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsActive"" BOOLEAN NOT NULL);
-            
+            -- Patches for existing PostgreSQL databases
             DO $$ 
             BEGIN 
-                IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='SystemSettings' AND column_name='Category') THEN
-                    ALTER TABLE ""SystemSettings"" ADD COLUMN ""Category"" TEXT NULL;
-                END IF;
-                IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='Employees' AND column_name='Notes') THEN
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PassportNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PassportExpiry"" TIMESTAMP WITH TIME ZONE NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PhoneNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""PersonalEmail"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""NationalId"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""NationalIdExpiry"" TIMESTAMP WITH TIME ZONE NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""JobTitle"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""Department"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""FullAddress"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""BankName"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""AccountNumber"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""IBAN"" TEXT NULL;
-                    ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""Notes"" TEXT NULL;
+                -- Ensure SystemSettings has Category
+                IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='SystemSettings') THEN
+                    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='SystemSettings' AND column_name='Category') THEN
+                        ALTER TABLE ""SystemSettings"" ADD COLUMN ""Category"" TEXT NULL;
+                    END IF;
                 END IF;
                 
-                -- Global Sync Columns
+                -- Global Sync Infrastructure Discovery
                 DECLARE
                     t text;
                 BEGIN
