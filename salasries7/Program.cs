@@ -56,6 +56,13 @@ builder.WebHost.UseElectron(args);
 
 var app = builder.Build();
 
+// Required for correct HTTPS and CSS paths behind Render's reverse proxy
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | 
+                       Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+});
+
 // Electron Window Management
 if (ElectronNET.API.HybridSupport.IsElectronActive)
 {
