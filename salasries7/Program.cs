@@ -86,6 +86,33 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     
+    // 0. For PostgreSQL: Drop stale tables if they have wrong schema (from earlier partial runs)
+    // This detects the broken state (Branches exists but lacks 'Address') and resets cleanly.
+    if (db.Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite")
+    {
+        var resetSql = @"
+            DO $$
+            BEGIN
+                -- Detect stale schema: Branches exists but is missing the 'Address' column
+                IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'Branches') AND
+                   NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'Branches' AND column_name = 'Address') THEN
+                    DROP TABLE IF EXISTS ""PayrollLines"" CASCADE;
+                    DROP TABLE IF EXISTS ""PayrollRuns"" CASCADE;
+                    DROP TABLE IF EXISTS ""SalaryAdjustments"" CASCADE;
+                    DROP TABLE IF EXISTS ""EmployeeLeaves"" CASCADE;
+                    DROP TABLE IF EXISTS ""EmployeeLoans"" CASCADE;
+                    DROP TABLE IF EXISTS ""EmployeeDocuments"" CASCADE;
+                    DROP TABLE IF EXISTS ""AttendanceRecords"" CASCADE;
+                    DROP TABLE IF EXISTS ""Employees"" CASCADE;
+                    DROP TABLE IF EXISTS ""Branches"" CASCADE;
+                    DROP TABLE IF EXISTS ""GlobalNotifications"" CASCADE;
+                    DROP TABLE IF EXISTS ""SystemSettings"" CASCADE;
+                    DROP TABLE IF EXISTS ""Users"" CASCADE;
+                END IF;
+            END $$;";
+        try { await db.Database.ExecuteSqlRawAsync(resetSql); } catch { }
+    }
+
     // 1. Initial Structural Creation (Ideal for fresh Neon/PostgreSQL DBs)
     // This creates all tables from Models if they don't exist.
     await db.Database.EnsureCreatedAsync();
