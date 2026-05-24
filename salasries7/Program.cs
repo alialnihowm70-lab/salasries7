@@ -117,6 +117,17 @@ using (var scope = app.Services.CreateScope())
     // This creates all tables from Models if they don't exist.
     await db.Database.EnsureCreatedAsync();
 
+    // 1b. Ensure auxiliary tables exist (may not be auto-discovered by EnsureCreated in some environments)
+    if (db.Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite")
+    {
+        await db.Database.ExecuteSqlRawAsync(@"
+            CREATE TABLE IF NOT EXISTS ""AuditLogs"" (""Id"" SERIAL PRIMARY KEY, ""Action"" TEXT NOT NULL, ""Entity"" TEXT, ""EntityId"" TEXT, ""UserId"" INTEGER, ""Details"" TEXT, ""Timestamp"" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL);
+            CREATE TABLE IF NOT EXISTS ""SystemSettings"" (""Key"" TEXT PRIMARY KEY, ""Value"" TEXT NOT NULL, ""Description"" TEXT, ""Category"" TEXT);
+            CREATE TABLE IF NOT EXISTS ""GlobalNotifications"" (""Id"" SERIAL PRIMARY KEY, ""Title"" TEXT NOT NULL, ""Message"" TEXT NOT NULL, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL, ""IsRead"" BOOLEAN NOT NULL DEFAULT FALSE, ""Severity"" INTEGER NOT NULL DEFAULT 0, ""ActionUrl"" TEXT);
+            CREATE TABLE IF NOT EXISTS ""Users"" (""Id"" SERIAL PRIMARY KEY, ""Username"" TEXT NOT NULL UNIQUE, ""PasswordHash"" TEXT NOT NULL, ""Role"" INTEGER NOT NULL DEFAULT 0, ""EmployeeId"" INTEGER, ""CreatedAt"" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(), ""IsActive"" BOOLEAN NOT NULL DEFAULT TRUE, ""SyncId"" UUID DEFAULT gen_random_uuid(), ""UpdatedAt"" TIMESTAMP WITH TIME ZONE DEFAULT NOW(), ""IsSynced"" BOOLEAN DEFAULT FALSE);
+        ");
+    }
+
     // 2. Hybrid Schema Self-Healing (Patches for existing local databases)
     string fixSql;
     if (db.Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
@@ -195,7 +206,6 @@ using (var scope = app.Services.CreateScope())
     }
     await db.SaveChangesAsync();
 
-    await db.SaveChangesAsync();
 
     // Seed default admin if missing
     if (!db.Users.Any(u => u.Username == "admin"))
