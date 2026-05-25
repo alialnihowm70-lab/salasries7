@@ -7,142 +7,257 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تسجيل الدخول - منظومة المرتبات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>تسجيل الدخول - منظومة المرتبات الاحترافية</title>
+    
+    <!-- Fonts: Vazirmatn & Alexandria for premium Arabic typography and high readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&family=Alexandria:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <!-- Bootstrap 5 RTL -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    
+    <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --primary: #2563eb;
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            --accent-gradient: linear-gradient(135deg, #3b82f6, #6366f1);
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --input-bg: #f8fafc;
+            --input-border: #cbd5e1;
+            --input-border-focus: #3b82f6;
+            --text-main: #0f172a;
+            --text-muted: #475569;
         }
+
         body {
-            font-family: 'Rubik', sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Vazirmatn', "Segoe UI", Tahoma, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.05) 0, transparent 50%);
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             margin: 0;
-            color: white;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
-        .login-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3rem;
+
+        .login-container {
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 480px;
+            padding: 1.5rem;
         }
-        .brand-logo {
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 20px 40px -10px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 25px 50px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        .brand-logo-container {
             width: 80px;
             height: 80px;
-            background: var(--primary);
+            background: var(--accent-gradient);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin: 0 auto 1.5rem;
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 0.8rem 1.2rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+
+        .login-card:hover .brand-logo-container {
+            transform: scale(1.05) rotate(5deg);
         }
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-            color: white;
+
+        .card-title {
+            font-family: 'Alexandria', "Segoe UI", Tahoma, sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
-        .btn-login {
-            background: var(--primary);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-weight: 700;
-            width: 100%;
-            margin-top: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .btn-login:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .error-msg {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            padding: 0.75rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            text-align: center;
+
+        .card-subtitle {
             font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 500;
         }
-        .floating-bg {
-            position: absolute;
-            z-index: -1;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            top: -250px;
-            left: -250px;
+
+        .form-label {
+            font-family: 'Alexandria', "Segoe UI", Tahoma, sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+            display: block;
+            letter-spacing: -0.01em;
+        }
+
+        .input-group-custom {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .input-group-custom:focus-within {
+            border-color: var(--input-border-focus);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            background: #ffffff;
+        }
+
+        .input-icon {
+            padding: 0 1.2rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: color 0.25s ease;
+        }
+
+        .input-group-custom:focus-within .input-icon {
+            color: var(--primary);
+        }
+
+        .form-control-custom {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            padding: 0.9rem 0;
+            padding-left: 1.2rem;
+            font-family: 'Vazirmatn', "Segoe UI", Tahoma, sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-control-custom::placeholder {
+            color: rgba(71, 85, 105, 0.4);
+            font-weight: 400;
+        }
+
+        .btn-login {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 14px;
+            font-family: 'Alexandria', "Segoe UI", Tahoma, sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1.8rem;
+            box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            box-shadow: 0 12px 25px -4px rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-login:active {
+            transform: translateY(1px);
+        }
+
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #991b1b;
+            padding: 0.85rem;
+            border-radius: 14px;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            letter-spacing: 0.05em;
         }
     </style>
 </head>
 <body>
-    <div class="floating-bg"></div>
-    <div class="login-card animate__animated animate__fadeInUp">
-        <div class="text-center mb-4">
-            <div class="brand-logo animate__animated animate__bounceIn">
-                <i class="fa-solid fa-calculator"></i>
-            </div>
-            <h3 class="fw-bold">مرحباً بك مجدداً</h3>
-            <p class="text-white-50 small">يرجى تسجيل الدخول للوصول إلى المنظومة</p>
-        </div>
-
-        @if (ViewBag.Error != null)
-        {
-            <div class="error-msg animate__animated animate__headShake">
-                <i class="fa-solid fa-triangle-exclamation me-2"></i> @ViewBag.Error
-            </div>
-        }
-
-        <form action="/Account/Login" method="post">
-            <input type="hidden" name="returnUrl" value="@Context.Request.Query["ReturnUrl"]" />
-            
-            <div class="mb-3">
-                <label class="form-label small text-white-50">اسم المستخدم</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0 text-white-50 ps-0"><i class="fa-solid fa-user"></i></span>
-                    <input type="text" name="username" class="form-control" required placeholder="أدخل اسم المستخدم" autofocus autocomplete="username" />
+    <div class="login-container">
+        <div class="login-card animate__animated animate__fadeInUp">
+            <div class="text-center">
+                <div class="brand-logo-container animate__animated animate__bounceIn">
+                    <i class="fa-solid fa-calculator"></i>
                 </div>
+                <h2 class="card-title">مرحباً بك مجدداً</h2>
+                <p class="card-subtitle">الرجاء تسجيل الدخول للوصول إلى المنظومة</p>
             </div>
 
-            <div class="mb-4">
-                <label class="form-label small text-white-50">كلمة المرور</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0 text-white-50 ps-0"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" required placeholder="أدخل كلمة المرور" autocomplete="current-password" />
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-msg animate__animated animate__headShake">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>@ViewBag.Error</span>
                 </div>
+            }
+
+            <form action="/Account/Login" method="post">
+                <input type="hidden" name="returnUrl" value="@Context.Request.Query["ReturnUrl"]" />
+                
+                <div class="mb-3">
+                    <label class="form-label">اسم المستخدم</label>
+                    <div class="input-group-custom">
+                        <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" name="username" class="form-control-custom" required placeholder="أدخل اسم المستخدم الخاص بك" autofocus autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">كلمة المرور</label>
+                    <div class="input-group-custom">
+                        <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control-custom" required placeholder="أدخل كلمة المرور الخاصة بك" autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">دخول للمنظومة</button>
+            </form>
+
+            <div class="text-center footer-text">
+                <span>منظومة المرتبات - الإصدار الاحترافي v7.0</span>
             </div>
-
-            <button type="submit" class="btn btn-primary btn-login">دخول للمنظومة</button>
-        </form>
-
-        <div class="mt-4 text-center">
-            <p class="text-white-50 x-small" style="font-size: 0.7rem;">منظومة المرتبات - الإصدار الاحترافي v7.0</p>
         </div>
     </div>
 </body>

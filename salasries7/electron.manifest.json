@@ -12,11 +12,14 @@
         "directories": {
             "output": "../bin/Desktop"
         },
+        "extraResources": [
+            "bin"
+        ],
         "win": {
             "target": [
-                "portable"
+                "zip"
             ],
-            "icon": "C:/Users/alial/.gemini/antigravity/brain/842fd23d-5d0f-4c7a-ad4d-6652b5f8a7e2/salasries_enterprise_logo_1779527898232.png"
+            "icon": "c:/Users/alial/source/repos/salasries7/salasries7/salasries_enterprise_logo.png"
         }
     }
 }

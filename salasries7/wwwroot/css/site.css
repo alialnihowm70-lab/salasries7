@@ -1,14 +1,14 @@
 :root {
-  --page-bg: #fdfdfe;
-  --surface: #ffffff;
+  --page-bg: #f1f5f9; /* Soft, clean, highly comfortable slate background */
+  --surface: #ffffff; /* Pure white surface */
   --surface-raised: #ffffff;
-  --surface-muted: #f4f7fa;
-  --surface-tint: #f9fbfe;
-  --border: #e6ebf1;
-  --border-strong: #d1d9e4;
-  --text: #0f172a;
-  /* Deeper Indigo Black for extreme contrast */
-  --muted: #475569;
+  --surface-muted: #e2e8f0; /* Darker slate for muted elements */
+  --surface-tint: #f8fafc;
+  --border: #cbd5e1; /* Crisp, high-contrast slate borders */
+  --border-strong: #94a3b8;
+  --text: #020617; /* Absolute maximum pitch-black contrast for text */
+  --muted: #334155; /* Much darker charcoal gray for high-readability muted text */
+  --text-muted: var(--muted);
   /* Much darker gray for readability */
   --primary: #1a56db;
   --primary-dark: #1e429f;
@@ -36,8 +36,8 @@
   /* Wider for accessibility */
   --transition-speed: 250ms;
 
-  --font-family-base: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-family-heading: "Rubik", -apple-system, sans-serif;
+  --font-family-base: "Vazirmatn", "Alexandria", "Segoe UI", Tahoma, -apple-system, sans-serif;
+  --font-family-heading: "Alexandria", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, sans-serif;
 
   /* Mesh Gradients */
   --mesh-gradient: radial-gradient(at 0% 0%, hsla(210, 100%, 75%, 0.1) 0, transparent 50%),
@@ -54,9 +54,20 @@ html[data-theme="dark"] {
   --border-strong: #4a5568;
   --text: #f9fafb;
   --muted: #9ca3af;
+  --text-muted: var(--muted);
   --primary: #3b82f6;
   --primary-dark: #60a5fa;
   --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.4);
+  
+  /* High-Contrast Comfortable Semantic Variables for Dark Mode */
+  --green: #34d399;
+  --amber: #fbbf24;
+  --rose: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+  --blue: #60a5fa;
 }
 
 * {
@@ -107,9 +118,7 @@ a:hover {
   z-index: 1040;
   width: var(--sidebar-width);
   padding: 1.5rem 1rem;
-  background: hsla(215, 25%, 99%, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: var(--surface);
   border-inline-end: 1px solid var(--border);
   box-shadow: var(--shadow-premium);
   display: flex;
@@ -118,7 +127,7 @@ a:hover {
 }
 
 html[data-theme="dark"] .app-sidebar {
-  background: hsla(222, 47%, 11%, 0.85);
+  background: var(--surface);
 }
 
 .brand-block {
@@ -161,21 +170,21 @@ html[data-theme="dark"] .app-sidebar {
   background:
     linear-gradient(135deg, var(--primary), var(--accent)),
     url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 86c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm66-3c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-40-39c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm29 38c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM32 13c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm54 54c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-  color: #fff;
+  color: var(--text);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 30px 60px -15px rgba(26, 86, 219, 0.4);
+  box-shadow: var(--shadow);
 }
 
 .hero-copy h1 {
-  color: #fff;
-  font-size: 3.5rem;
+  color: var(--text);
+  font-size: clamp(1.8rem, 2.8vw, 2.8rem);
   font-weight: 950;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .hero-copy p {
-  color: rgba(255, 255, 255, 1) !important;
+  color: var(--text-muted);
   font-weight: 700;
 }
 
@@ -289,15 +298,13 @@ html[data-theme="dark"] .app-sidebar {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background: hsla(0, 0%, 100%, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
 }
 
 html[data-theme="dark"] .topbar {
-  background: hsla(222, 47%, 11%, 0.8);
+  background: var(--surface);
 }
 
 .nav-item {
@@ -519,8 +526,7 @@ html[data-theme="dark"] .topbar {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: hsla(215, 25%, 99%, 0.8);
-  backdrop-filter: blur(10px);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 2rem;
   box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
@@ -690,13 +696,14 @@ html[data-theme="dark"] .topbar {
   box-shadow: var(--shadow-premium);
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .stat-card:hover,
 .panel:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg);
 }
 
 .stat-card::after {
@@ -1462,4 +1469,40 @@ html[data-theme="dark"] .topbar {
   .hero-panel {
     box-shadow: none;
   }
+}
+
+/* ==========================================================================
+   THEME COHESION OVERRIDES & OPTIMIZATIONS
+   ========================================================================== */
+
+/* 1. Global Contrast Overrides for Bootstrap Utilities */
+.text-dark {
+  color: var(--text) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+.text-secondary {
+  color: var(--text-muted) !important;
+}
+.text-success {
+  color: var(--success) !important;
+}
+.text-danger {
+  color: var(--danger) !important;
+}
+.text-warning {
+  color: var(--amber) !important;
+}
+.text-info {
+  color: var(--info) !important;
+}
+.bg-light.text-dark {
+  background-color: var(--surface-muted) !important;
+  color: var(--text) !important;
+}
+.badge.bg-light.text-dark {
+  background-color: var(--surface-muted) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
 }
