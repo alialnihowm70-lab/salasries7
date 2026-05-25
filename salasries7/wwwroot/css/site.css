@@ -86,15 +86,11 @@ body {
   background-color: var(--page-bg);
   color: var(--text);
   font-family: var(--font-family-base);
-  background-image:
-    radial-gradient(at 0% 0%, hsla(220, 100%, 95%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(260, 100%, 95%, 1) 0, transparent 50%);
+  /* Removed heavy radial-gradient to eliminate scroll repaint lag */
 }
 
 html[data-theme="dark"] body {
-  background-image:
-    radial-gradient(at 0% 0%, hsla(220, 40%, 10%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(260, 40%, 10%, 1) 0, transparent 50%);
+  /* No background-image gradient in dark mode either for performance */
 }
 
 a {
@@ -120,10 +116,14 @@ a:hover {
   padding: 1.5rem 1rem;
   background: var(--surface);
   border-inline-end: 1px solid var(--border);
-  box-shadow: var(--shadow-premium);
+  /* Lightweight shadow - no blur/spread for performance */
+  box-shadow: 2px 0 8px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  /* Promote to own compositor layer to prevent repaint on scroll */
+  will-change: transform;
+  contain: layout style;
 }
 
 html[data-theme="dark"] .app-sidebar {
@@ -216,13 +216,14 @@ html[data-theme="dark"] .app-sidebar {
   color: var(--muted);
   font-weight: 850;
   border: 1px solid transparent;
-  transition: background var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  /* Only transition compositor-safe properties */
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
 .side-link:hover {
   background: var(--surface-muted);
   color: var(--text);
-  transform: translateX(-2px);
+  /* Removed transform translateX - causes layout recalculation on sidebar */
 }
 
 .side-link.active {
@@ -300,7 +301,10 @@ html[data-theme="dark"] .app-sidebar {
   gap: 1rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  /* Simple bottom border instead of box-shadow for sticky performance */
+  /* Promote to own layer - prevents full-page repaint when sticky */
+  will-change: transform;
+  contain: layout style;
 }
 
 html[data-theme="dark"] .topbar {
@@ -316,7 +320,7 @@ html[data-theme="dark"] .topbar {
   text-decoration: none;
   font-weight: 800;
   border-left: 6px solid transparent;
-  transition: all 0.2s ease;
+  /* No transition: all - too expensive */
   font-size: 1.15rem;
 }
 
@@ -429,13 +433,13 @@ html[data-theme="dark"] .topbar {
   font-size: 1.25rem;
   line-height: 1;
   box-shadow: var(--shadow-soft);
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  transition: background 140ms ease, border-color 140ms ease;
 }
 
 .icon-button:hover {
   background: var(--surface-muted);
   border-color: var(--border-strong);
-  transform: translateY(-1px);
+  /* No transform on topbar icons - reduces repaint area */
 }
 
 .sidebar-close,
@@ -529,15 +533,15 @@ html[data-theme="dark"] .topbar {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 2rem;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  /* Fast, GPU-friendly transition - only transform+opacity are compositor-safe */
+  transition: transform 180ms ease, border-color 180ms ease;
+  will-change: transform;
 }
 
 .branch-choice-card button:hover {
-  transform: translateY(-12px) scale(1.02);
+  transform: translateY(-6px);
   border-color: var(--primary);
-  background: #fff;
-  box-shadow: 0 30px 60px -15px rgba(26, 86, 219, 0.15);
 }
 
 .branch-choice-card .branch-icon-box {
@@ -550,13 +554,13 @@ html[data-theme="dark"] .topbar {
   border-radius: 1.25rem;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
+  transition: background 180ms ease, color 180ms ease;
 }
 
 .branch-choice-card button:hover .branch-icon-box {
   background: var(--primary);
   color: #fff;
-  transform: rotate(10deg);
+  /* Removed rotation transform - causes layout on children */
 }
 
 .branch-choice-card span {
@@ -693,34 +697,25 @@ html[data-theme="dark"] .topbar {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-premium);
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  /* Lighter shadow - no premium multi-layer shadow for perf */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  /* Removed overflow:hidden and position:relative from base to reduce stacking contexts */
+  transition: border-color 160ms ease, transform 160ms ease;
+  will-change: transform;
 }
 
 .stat-card:hover,
 .panel:hover {
   transform: translateY(-2px);
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-lg);
+  /* No box-shadow change on hover - very expensive to repaint */
 }
 
-.stat-card::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: var(--mesh-gradient);
-  pointer-events: none;
-  z-index: 0;
-}
+/* Removed expensive mesh-gradient pseudo-element from base */
 
 .stat-card {
   position: relative;
-  overflow: hidden;
+  /* Removed overflow:hidden - reduces stacking context overhead */
   min-height: 134px;
   padding: 1rem;
   display: flex;
@@ -733,8 +728,10 @@ html[data-theme="dark"] .topbar {
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  width: 5px;
+  width: 4px;
+  border-radius: 0 2px 2px 0;
   background: var(--primary);
+  /* No transition on pseudo-element */
 }
 
 .stat-card::after {
@@ -910,18 +907,17 @@ html[data-theme="dark"] .topbar {
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
   font-weight: 600;
   font-size: 0.85rem;
   padding: 0.5rem 1rem;
   border-radius: var(--radius);
-  transition: all 0.2s;
+  transition: background 140ms ease, border-color 140ms ease;
 }
 
 .dataTables_wrapper .btn-secondary:hover {
   background: var(--surface-muted);
   border-color: var(--border-strong);
-  transform: translateY(-1px);
+  /* No transform on table buttons */
 }
 
 .app-table {
